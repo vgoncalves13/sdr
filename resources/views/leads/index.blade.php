@@ -31,6 +31,7 @@
                                 <th>Número</th>
                                 <th>CEP</th>
                                 <th>Operadora</th>
+                                <th>Telefones</th>
                                 <th>Ações</th>
                             </tr>
                             @foreach($leads as $lead)
@@ -41,6 +42,21 @@
                                     <td>{{$lead->company->address->number}}</td>
                                     <td>{{$lead->company->address->postal_code}}</td>
                                     <td>{{$lead->carrier->name}}</td>
+                                    <td>
+                                        <p>
+                                            <button class="btn btn-primary btn-xs" type="button" data-toggle="collapse"
+                                                    data-target="#collapse{{$lead->id}}" aria-expanded="false"
+                                                    aria-controls="collapse{{$lead->id}}">
+                                                Ver mais...
+                                            </button>
+                                        <div class="collapse" id="collapse{{$lead->id}}">
+                                            @forelse($lead->company->telephones as $telephone)
+                                                {{$telephone->number}} / {{$telephone->type}}<br>
+                                            @empty
+                                                Nenhum telefone cadastrado
+                                            @endforelse
+                                        </div>
+                                    </td>
                                     <td>
                                         <a class="btn btn-flat btn-info btn-sm" href="{{route('leads.show',$lead)}}">Ver</a>
                                     </td>
