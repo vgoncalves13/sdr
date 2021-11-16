@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'SDR CellVix',
+    'title' => 'SDR ZipBusinez',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -46,11 +46,11 @@ return [
     */
 
     'logo' => '<strong>SDR</strong>',
-    'logo_img' => 'vendor/adminlte/dist/img/cellvix_logo.png',
+    'logo_img' => 'vendor/adminlte/dist/img/zipb_logo.png',
     'logo_img_class' => 'brand-image',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Logo CellVix',
+    'logo_img_alt' => 'Logo Zipbusinez',
 
     /*
     |--------------------------------------------------------------------------
@@ -261,6 +261,24 @@ return [
             'url'  => 'admin/opportunities',
             'icon' => 'fas fa-fw fa-lightbulb'
         ],
+        [
+            'header' => 'MAILING'
+        ],
+        [
+            'text' => 'Processar leads',
+            'url' => 'admin/leads',
+            'icon' => 'fas fa-paper-plane'
+        ],
+        [
+            'text' => 'Exportar',
+            'url' => 'admin/leads/export/leads',
+            'icon' => 'fas fa-file-export'
+        ],
+        [
+            'text' => 'Operadoras',
+            'url' => 'admin/carriers',
+            'icon' => 'fas fa-phone'
+        ]
 
     ],
 
