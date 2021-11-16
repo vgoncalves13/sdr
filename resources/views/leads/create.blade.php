@@ -95,26 +95,32 @@
                     <h3 class="card-title">Lista de processamentos</h3>
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            <th>Nome</th>
-                            <th>Empresas</th>
-                            <th>Empresas pendentes</th>
-                            <th>Criado em</th>
-                            <th>Finalizado em</th>
-                            <th>Status</th>
-                        </tr>
-                        @foreach($batches as $batch)
+                    <div class="table-responsive">
+                        <table class="table">
                             <tr>
-                                <td>{{$batch->name}}</td>
-                                <td>{{$batch->total_jobs}}</td>
-                                <td>{{$batch->pending_jobs}}</td>
-                                <td>{{\Carbon\Carbon::parse($batch->created_at)->format('d/m/Y H:i')}}</td>
-                                <td>@if($batch->pending_jobs > 0) -- @else {{\Carbon\Carbon::parse($batch->finished_at)->format('d/m/Y H:i')}} @endif</td>
-                                <td>@if($batch->pending_jobs > 0)Processando @else Concluído @endif</td>
+                                <th>Nome</th>
+                                <th>Empresas</th>
+                                <th>Empresas pendentes</th>
+                                <th>Criado em</th>
+                                <th>Finalizado em</th>
+                                <th>Status</th>
                             </tr>
-                        @endforeach
-                    </table>
+                            @foreach($batches as $batch)
+                                <tr>
+                                    <td>{{$batch->name}}</td>
+                                    <td>{{$batch->total_jobs}}</td>
+                                    <td>{{$batch->pending_jobs}}</td>
+                                    <td>{{\Carbon\Carbon::parse($batch->created_at)->format('d/m/Y H:i')}}</td>
+                                    <td>@if($batch->pending_jobs > 0) -- @else {{\Carbon\Carbon::parse($batch->finished_at)->format('d/m/Y H:i')}} @endif</td>
+                                    <td>@if($batch->pending_jobs > 0)
+                                            <i class="fas fa-spinner fa-pulse"></i> Processando
+                                        @else <span style="color: green"><i class="fas fa-check-circle"></i></span> Concluído
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                     {{$batches->links()}}
                 </div>
             </div>

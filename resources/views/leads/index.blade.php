@@ -22,31 +22,32 @@
                                           theme="warning" icon="fas fa-lightbulb"/>
                 </div>
                 <div class="col-12">
-                    <table class="table">
-                        <tr>
-                            <th>Empresa</th>
-                            <th>CNPJ</th>
-                            <th>Endereço</th>
-                            <th>Número</th>
-                            <th>CEP</th>
-                            <th>Operadora</th>
-                            <th>Ações</th>
-                        </tr>
-                        @foreach($leads as $lead)
+                    <div class="table-responsive">
+                        <table class="table">
                             <tr>
-                                <td>{{$lead->company->name}}</td>
-                                <td>{{$lead->company->cnpj}}</td>
-                                <td>{{$lead->company->address->address}}</td>
-                                <td>{{$lead->company->address->number}}</td>
-                                <td>{{$lead->company->address->postal_code}}</td>
-                                <td>{{$lead->carrier->name}}</td>
-                                <td>
-                                    <a class="btn btn-flat btn-info btn-sm" href="{{route('leads.show',$lead)}}">Ver</a>
-{{--                                    <a class="btn btn-flat btn-info btn-sm" href="{{route('leads.edit',$lead)}}">Editar</a>--}}
-                                </td>
+                                <th>Empresa</th>
+                                <th>CNPJ</th>
+                                <th>Endereço</th>
+                                <th>Número</th>
+                                <th>CEP</th>
+                                <th>Operadora</th>
+                                <th>Ações</th>
                             </tr>
-                        @endforeach
-                    </table>
+                            @foreach($leads as $lead)
+                                <tr>
+                                    <td>{{$lead->company->name}}</td>
+                                    <td>{{$lead->company->cnpj}}</td>
+                                    <td>{{$lead->company->address->address}}</td>
+                                    <td>{{$lead->company->address->number}}</td>
+                                    <td>{{$lead->company->address->postal_code}}</td>
+                                    <td>{{$lead->carrier->name}}</td>
+                                    <td>
+                                        <a class="btn btn-flat btn-info btn-sm" href="{{route('leads.show',$lead)}}">Ver</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
