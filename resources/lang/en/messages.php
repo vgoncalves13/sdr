@@ -13,5 +13,8 @@ return [
     */
 
     'success' => ':objeto :nome criado com sucesso!',
+    'update_success' => ':objeto :nome atualizado com sucesso!',
+    'error' => 'Ocorreu um problema!',
+    'custom' => ':objeto'
 
 ];

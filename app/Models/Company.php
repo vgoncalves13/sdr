@@ -28,4 +28,9 @@ class Company extends Model
     {
         return $this->hasMany(Opportunity::class);
     }
+
+    public function mailings()
+    {
+        return $this->hasMany(Lead::class);
+    }
 }

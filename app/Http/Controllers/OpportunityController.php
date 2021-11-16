@@ -35,7 +35,6 @@ class OpportunityController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -83,7 +82,7 @@ class OpportunityController extends Controller
         }
         $company = Company::create($request->all());
         $company->address()->create($request->all());
-        $company->opportunity()->create($request->all());
+        $company->opportunities()->create($request->all());
         $company->telephones()->createMany($telephone_data);
         $company->telephones()->createMany($cellphone_data);
 
