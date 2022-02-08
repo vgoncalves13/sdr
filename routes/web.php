@@ -19,6 +19,7 @@ Route::prefix('admin')->group(function (){
     Route::resource('companies',\App\Http\Controllers\CompanyController::class);
     Route::resource('opportunities',\App\Http\Controllers\OpportunityController::class);
     Route::resource('carriers',\App\Http\Controllers\CarrierController::class);
+    Route::resource('services',\App\Http\Controllers\ServiceController::class);
 
     //Leads
     Route::get('leads',[\App\Http\Controllers\LeadController::class,'index'])
