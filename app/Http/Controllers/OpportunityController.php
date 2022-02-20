@@ -10,6 +10,7 @@ use App\Models\COMPANIES_LEAD;
 use App\Models\Company;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class OpportunityController extends Controller
@@ -29,7 +30,17 @@ class OpportunityController extends Controller
     public function index()
     {
         $opportunities = Opportunity::with(['company.address'])->paginate(10);
-        return view('opportunies.index')->with(compact('opportunities'));
+        $sql_opportunities_temperature = DB::table('opportunities')
+            ->select(DB::raw('temperature,count(*) as total_by_temperature'))
+            ->groupBy('temperature')
+            ->orderBy('temperature','desc')
+            ->get();
+        foreach ($sql_opportunities_temperature as $key => $op){
+
+            $arr[$op->temperature] = $op->total_by_temperature;
+        }
+        $count_opportunities_temperatures = $arr;
+        return view('opportunies.index')->with(compact('opportunities','count_opportunities_temperatures'));
     }
 
     /**
@@ -47,19 +58,41 @@ class OpportunityController extends Controller
      */
     public function verify(OpportunityCreateRequest $request)
     {
-        $company = Company::with(['opportunities','address','telephones'])->where('cnpj',$request->cnpj)->first();
-        if ($company==null){
-            $external_company = $this->companies_lead->getCnpj($request->cnpj);
-            if ($external_company == null){
+        if (isset($request->cnpj)){
+            $company = Company::with(['opportunities','address','telephones'])->where('cnpj',$request->cnpj);
+            if (!$company->exists()){
+                $external_company = $this->companies_lead->getCnpj($request->cnpj);
+                if (!$external_company->exists()){
+                    \session()->put('cnpj',$request->cnpj);
+                    Session::flash('message','Nenhuma empresa encontrada, favor inserir as informações!');
+                    Session::flash('alert-class', 'alert-warning');
+                    return view('opportunies.create_data');
+                }else{
+                    return view('opportunies.complement_data')->with('external_company', $external_company->first());
+                }
+            }
+            return view('opportunies.create_opportunity')->with('company', $company->first());
+        }
+
+        $company = Company::with(['opportunities','address','telephones'])
+            ->where('name','like','%' . $request->name . '%');
+        if (!$company->exists()){
+            $external_company = $this->companies_lead->getByName($request->name);
+            if (!$external_company->exists()){
                 \session()->put('cnpj',$request->cnpj);
                 Session::flash('message','Nenhuma empresa encontrada, favor inserir as informações!');
                 Session::flash('alert-class', 'alert-warning');
                 return view('opportunies.create_data');
             }else{
-                return view('opportunies.complement_data')->with(compact('external_company'));
+                return view('opportunies.complement_data')->with('external_company', $external_company->first());
             }
         }
-        return view('opportunies.create_opportunity')->with(compact('company'));
+        return view('opportunies.select_companies')->with('companies', $company->get());
+    }
+
+    public function dispatch_opportunity_by_name(Company $company)
+    {
+        return view('opportunies.create_opportunity')->with('company', $company);
     }
 
     /**
@@ -101,7 +134,8 @@ class OpportunityController extends Controller
      */
     public function store(OpportunityStoreRequest $request, Company $company = null)
     {
-        $company->opportunities()->create($request->all());
+        $opportunity = $company->opportunities()->create($request->all());
+        $opportunity->services()->attach($request->services);
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Oportunidade',
@@ -109,7 +143,6 @@ class OpportunityController extends Controller
         ]));
         Session::flash('alert-class', 'alert-success');
         return redirect(route('opportunities.index'));
-
     }
 
     /**

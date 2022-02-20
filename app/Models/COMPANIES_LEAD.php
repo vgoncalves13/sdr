@@ -16,7 +16,13 @@ class COMPANIES_LEAD extends Model implements ShouldQueue
 
     public function getCnpj($cnpj)
     {
-        $result = COMPANIES_LEAD::where('cnpj',$cnpj)->first();
+        $result = COMPANIES_LEAD::where('cnpj',$cnpj);
+        return $result;
+    }
+
+    public function getByName($name)
+    {
+        $result = COMPANIES_LEAD::where('NOME','like','%' . $name . '%');
         return $result;
     }
 }

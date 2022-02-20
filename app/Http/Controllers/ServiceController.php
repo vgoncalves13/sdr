@@ -37,10 +37,11 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $service = new Service();
-        $service->name = $request->name;
-        $service->value = $request->value;
-        $service->save();
+        $service = Service::create($request->all());
+//        $service = new Service();
+//        $service->name = $request->name;
+//        $service->value = $request->value;
+//        $service->save();
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Serviço',
@@ -84,7 +85,15 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        //
+        $service->update($request->all());
+
+        Session::flash('message',__('messages.update_success',[
+            'objeto' => 'Serviço',
+            'nome' => $service->name
+        ]));
+        Session::flash('alert-class', 'alert-success');
+
+        return redirect(route('services.show',$service));
     }
 
     /**

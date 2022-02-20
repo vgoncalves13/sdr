@@ -32,6 +32,7 @@
                                 <th>CEP</th>
                                 <th>Operadora</th>
                                 <th>Telefones</th>
+                                <th>Status</th>
                                 <th>Ações</th>
                             </tr>
                             @foreach($leads as $lead)
@@ -57,6 +58,7 @@
                                             @endforelse
                                         </div>
                                     </td>
+                                    <td>{{$lead->status}}</td>
                                     <td>
                                         <a class="btn btn-flat btn-info btn-sm" href="{{route('leads.show',$lead)}}">Ver</a>
                                     </td>

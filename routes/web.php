@@ -26,7 +26,7 @@ Route::prefix('admin')->group(function (){
         ->name('leads.index');
     Route::get('leads/create',[\App\Http\Controllers\LeadController::class,'create'])
         ->name('leads.create');
-    Route::post('leads/process',[\App\Http\Controllers\LeadController::class,'process'])
+    Route::post('leads/process',[\App\Http\Controllers\LeadController::class,'debug'])
         ->name('leads.process');
     Route::get('leads/{lead}',[\App\Http\Controllers\LeadController::class,'show'])
         ->name('leads.show');
@@ -42,6 +42,8 @@ Route::prefix('admin')->group(function (){
         ->name('opportunities.store_complement');
     Route::post('oportunities/{company?}',[\App\Http\Controllers\OpportunityController::class, 'store'])
         ->name('opportunities.store');
+    Route::get('opportunities/dispatch_opportunity_by_name/{company}',[\App\Http\Controllers\OpportunityController::class, 'dispatch_opportunity_by_name'])
+        ->name('opportunities.dispatch_opportunity_by_name');
 
     //Carriers
     Route::get('carriers/sources/create/{carrier}',[\App\Http\Controllers\CarrierController::class, 'create_source'])
@@ -52,6 +54,8 @@ Route::prefix('admin')->group(function (){
         ->name('carriers.store_source');
     Route::put('carriers/sources/{source}/update',[\App\Http\Controllers\CarrierController::class, 'update_source'])
         ->name('carriers.update_source');
+
+    Route::get('/teste/debug',[\App\Http\Controllers\LeadController::class,'debug']);
 
 });
 

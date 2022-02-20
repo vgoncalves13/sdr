@@ -45,7 +45,7 @@ class LeadProcess implements ShouldQueue
         $carriers = $this->carriers;
         foreach ($carriers as $carrier){
             foreach ($carrier->coverage_sources as $source){
-                if ($source->checkCoverage($company->CEP, $company->NUMERO)){
+                if ($source->checkPostalCodeCoverage($company->CEP)){
                     //TODO get classification
 
                     $intern_company = new Company();

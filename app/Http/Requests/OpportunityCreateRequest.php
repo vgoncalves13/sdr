@@ -24,14 +24,14 @@ class OpportunityCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'cnpj' => 'required'
+            'cnpj' => 'required_without_all:name',
         ];
     }
 
     public function messages()
     {
         return [
-          'cnpj.required' => 'O campo :attribute é obrigatório!'
+          'cnpj.required_without_all' => 'O campo :attribute é obrigatório quando os outros estiverem vazios!'
         ];
     }
 
