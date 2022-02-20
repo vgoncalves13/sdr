@@ -17,6 +17,7 @@
                 <!-- form start -->
                 <form id="form_opportunity" method="POST" action="{{route('services.update',$service)}}" role="form">
                     @csrf
+                    @method('PUT')
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">Nome do serviço</label>
@@ -26,12 +27,12 @@
                         <div class="form-group">
                             <label for="value">Preço do serviço</label>
                             <input name="value" type="text" class="form-control" id="value"
-                                    placeholder="Preço do serviço" required>
+                                    placeholder="Preço do serviço" value="{{$service->value}}" required>
                         </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button id="btnFetch" type="submit" class="btn btn-primary" >Cadastrar</button>
+                        <button id="btnFetch" type="submit" class="btn btn-primary" >Atualizar</button>
                     </div>
                 </form>
             </div>

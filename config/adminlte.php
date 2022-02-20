@@ -262,6 +262,11 @@ return [
             'icon' => 'fas fa-fw fa-lightbulb'
         ],
         [
+            'text' => 'Serviços',
+            'url'  => 'admin/services',
+            'icon' => 'fas fa-fw fa-solid fa-phone'
+        ],
+        [
             'header' => 'MAILING'
         ],
         [
@@ -358,7 +363,7 @@ return [
                 [
                     'type' => 'js',
                     'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => '//cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js',
                 ],
             ],
         ],

@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('leads',[\App\Http\Controllers\ApiController::class,'getAllLeads']);
+Route::get('getServicesList',[\App\Http\Controllers\ApiController::class,'getServicesList']);
+

@@ -52,7 +52,9 @@ class GetCompanyProcess implements ShouldQueue
 
         $external_companies = COMPANIES_LEAD::when($uf,function ($q) use ($uf) {
                 return $q->whereIn('UF',$uf);
-            })->limit($request['companies_to_process'])->get();
+            })->limit($request['companies_to_process'])
+            ->where('CEP','<>','')
+            ->get();
         foreach ($external_companies as $company){
             $batch->add(new LeadProcess($company, $this->carriers));
         }

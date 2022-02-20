@@ -59,6 +59,85 @@ class LeadController extends Controller
         return view('leads.create')->with(compact('carriers','batches'));
     }
 
+    public function debug()
+    {
+        $external_companies = COMPANIES_LEAD::where('UF','RJ')->limit(10)->get();
+        $carriers = Carrier::all();
+
+        foreach ($external_companies as $company){
+            foreach ($carriers as $carrier){
+                foreach ($carrier->coverage_sources as $source){
+                    if ($source->checkPostalCodeCoverage($company->CEP)){
+                        $lead_status = $source->setLeadClassification($company->CEP, $company->NUMERO);
+
+                        if ($lead_status != 'NO_COVER'){
+                            $intern_company = new Company();
+                            $intern_company->cnpj = $company->CNPJ;
+                            $intern_company->name = $company->NOME;
+                            $intern_company->save();
+
+                            $address = new Address();
+                            $address->address = $company->ENDERECO;
+                            $address->address2 = $company->COMPLEMENTO;
+                            $address->number = $company->NUMERO;
+                            $address->address = $company->ENDERECO;
+                            $address->district = $company->BAIRRO;
+                            $address->city = $company->CIDADE;
+                            $address->state = $company->UF;
+                            $address->postal_code = $company->CEP;
+                            $address->company_id = $intern_company->id;
+                            $address->save();
+
+                            //TODO check if is mobile or landline
+
+                            $telephones = array();
+                            $cellphones = array();
+
+                            if (!empty($company->FIXO1)){
+                                $telephones[]['number'] = $company->FIXO1;
+                            }
+                            if (!empty($company->FIXO2)){
+                                $telephones[]['number'] = $company->FIXO2;
+                            }
+                            if (!empty($company->FIXO3)){
+                                $telephones[]['number'] = $company->FIXO3;
+                            }
+                            if (!empty($company->CEL1)){
+                                $cellphones[]['number'] = $company->CEL1;
+                            }
+                            if (!empty($company->CEL2)){
+                                $cellphones[]['number'] = $company->CEL2;
+                            }
+                            if (!empty($company->CEL3)){
+                                $cellphones[]['number'] = $company->CEL3;
+                            }
+
+                            foreach ($telephones as $key => $value) {
+                                $telephone[$key] = $value;
+                                $telephone[$key]['type'] = 'fixo';
+                            }
+
+                            foreach ($cellphones as $key => $value) {
+                                $cellphones[$key] = $value;
+                                $cellphones[$key]['type'] = 'celular';
+                            }
+
+                            $intern_company->telephones()->createMany($telephones);
+                            $intern_company->telephones()->createMany($cellphones);
+
+
+                            Lead::create([
+                                'status' => $lead_status,
+                                'carrier_id' => $carrier->id,
+                                'company_id' => $intern_company->id
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function process(Request $request)
     {
         $this->validate($request,[
@@ -71,7 +150,6 @@ class LeadController extends Controller
         }
         GetCompanyProcess::dispatch($request->all(), $carriers);
 
-        //TODO Create page view status queue
         Session::flash('message',__('messages.custom',[
             'objeto' => 'Processamento criado!',
             'nome' => ''
@@ -80,26 +158,6 @@ class LeadController extends Controller
 
         return redirect()->back();
 
-
-
-//        $big_data = COMPANIES_LEAD::when($uf, function($query) use ($uf) {
-//            return $query->where('UF', '=', $uf);
-//        })->limit(100)->chunk(10, function ($companies) {
-//            foreach ($companies as $company){
-//
-//            }
-//        });
-        //return (new LeadsExport)->download('lead.xlsx');
-
-//        (new LeadsExport($uf))->queue('leads/'.date('d/m/Y/').Carbon::now()->format('d-m-Y').'-leads.xlsx');
-//
-//        Session::flash('message',__('messages.success',[
-//            'objeto' => 'Seu arquivo será processado e ficará disponível para download em breve!',
-//            'nome' => ''
-//        ]));
-//        Session::flash('alert-class', 'alert-success');
-//
-//        return redirect()->back();
     }
 
     public function show(Lead $lead)

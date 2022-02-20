@@ -21,7 +21,13 @@
                             <label for="cnpj">CNPJ</label>
                             <p class="small">Insira o CNPJ para verificar se já existe alguma empresa em nosso banco de dados</p>
                             <input name="cnpj" type="text" class="form-control" id="cnpj"
-                                    placeholder="Apenas números" required>
+                                    placeholder="Apenas números">
+                        </div>
+                        <div class="form-group">
+                            <label for="cnpj">RAZÃO SOCIAL</label>
+                            <p class="small">Ou a Razão Social</p>
+                            <input name="name" type="text" class="form-control" id="name"
+                                   placeholder="">
                         </div>
                     </div>
                     <!-- /.card-body -->

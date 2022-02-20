@@ -11,15 +11,19 @@ class Opportunity extends Model
 
     protected $fillable = [
         'contact_name',
-        'customer_base',
-        'customer_competition',
-        'lines',
-        'current_product',
+        'contact_tel',
+        'contact_email',
+        'user_id'
     ];
 
 
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function services()
+    {
+        return $this->belongsToMany(Service::class)->withTimestamps();
     }
 }
