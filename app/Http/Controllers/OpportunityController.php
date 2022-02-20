@@ -35,6 +35,7 @@ class OpportunityController extends Controller
             ->groupBy('temperature')
             ->orderBy('temperature','desc')
             ->get();
+        $arr = array();
         foreach ($sql_opportunities_temperature as $key => $op){
 
             $arr[$op->temperature] = $op->total_by_temperature;
