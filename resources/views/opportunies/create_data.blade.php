@@ -17,6 +17,7 @@
                 <!-- form start -->
                 <form method="POST" action="{{route('opportunities.store')}}" role="form">
                     @csrf
+                    <input name="user_id" type="hidden" value="{{auth()->id()}}">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="cnpj">CNPJ</label>

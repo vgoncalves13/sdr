@@ -3,7 +3,7 @@
 @section('title', 'Cadastrar Oportunidade')
 
 @section('content_header')
-    <h1>{{$company->name}}</h1>
+    <h1>{{$company->name ?? $company->NOME}}</h1>
 @stop
 
 @section('content')
@@ -15,33 +15,36 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{route('opportunities.store',$company)}}" role="form">
+                <form method="POST" action="
+                    @if(isset($company->id)) {{route('opportunities.store',$company)}}
+                    @else {{route('opportunities.store_complement',$company)}}
+                    @endif" role="form">
                     @csrf
-                    <input name="company_id" type="hidden" value="{{$company->id}}">
-                    <input name="user_id" type="hidden" value="1">
+                    <input name="company_id" type="hidden" value="{{$company->id ?? $company->Id}}">
+                    <input name="user_id" type="hidden" value="{{auth()->id()}}">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="cnpj">CNPJ</label>
-                            <input value="{{$company->cnpj}}" name="cnpj" type="text" class="form-control" id="cnpj"
+                            <input value="{{$company->cnpj ?? $company->CNPJ}}" name="cnpj" type="text" class="form-control" id="cnpj"
                                    placeholder="Apenas números" readonly>
                         </div>
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input value="{{$company->name}}" name="name" type="text" class="form-control" id="name"
+                            <input value="{{$company->name ?? $company->NOME}}" name="name" type="text" class="form-control" id="name"
                                    placeholder="Nome" readonly>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">Endereço</label>
-                                    <input value="{{$company->address->address}}" name="address" type="text"
+                                    <input value="{{$company->address->address ?? $company->ENDERECO}}" name="address" type="text"
                                            class="form-control" id="address" placeholder="Endereço" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="number">Número</label>
-                                    <input value="{{$company->address->number}}" name="number" type="text"
+                                    <input value="{{$company->address->number ?? $company->NUMERO}}" name="number" type="text"
                                            class="form-control" id="number" placeholder="Número" readonly>
                                 </div>
                             </div>
@@ -50,7 +53,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address2">Complemento</label>
-                                    <input value="{{$company->address->address2}}" name="address2" type="text"
+                                    <input value="{{$company->address->address2 ?? $company->BAIRRO}}" name="address2" type="text"
                                            class="form-control" id="address2" placeholder="Complemento"
                                            @if($company->COMPLEMENTO == '')@else readonly @endif>
                                 </div>
@@ -58,7 +61,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="district">Bairro</label>
-                                    <input value="{{$company->address->district}}" name="district" type="text"
+                                    <input value="{{$company->address->district ?? $company->BAIRRO}}" name="district" type="text"
                                            class="form-control" id="district" placeholder="Bairro" readonly>
                                 </div>
                             </div>
@@ -67,21 +70,21 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="city">Cidade</label>
-                                    <input value="{{$company->address->city}}" name="city" type="text"
+                                    <input value="{{$company->address->city ?? $company->CIDADE}}" name="city" type="text"
                                            class="form-control" id="city" placeholder="Cidade" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="state">UF</label>
-                                    <input value="{{$company->address->state}}" name="state" type="text"
+                                    <input value="{{$company->address->state ?? $company->UF}}" name="state" type="text"
                                            class="form-control" id="state" placeholder="UF" readonly>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="postal_code">CEP</label>
-                                    <input value="{{$company->address->postal_code}}" name="postal_code"
+                                    <input value="{{$company->address->postal_code ?? $company->CEP}}" name="postal_code"
                                            type="text" class="form-control" id="postal_code" placeholder="CEP" readonly>
                                 </div>
                             </div>
@@ -89,30 +92,78 @@
                         <h4>Telefones</h4>
 
                         <div class="row">
-                            @foreach($company->telephones as $telephone)
-                                @if($telephone->type == 'fixo')
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="telephone">{{$telephone->type}} {{ $loop->iteration }}</label>
-                                            <input value="{{$telephone->number}}" name="telephone[0][number]"
-                                                   type="text" class="form-control" id="telephone" readonly>
+                            @if($company instanceof \App\Models\Company)
+                                @foreach($company->telephones as $telephone)
+                                    @if($telephone->type == 'fixo')
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="telephone">{{$telephone->type}} {{ $loop->iteration }}</label>
+                                                <input value="{{$telephone->number}}" name="telephone[0][number]"
+                                                       type="text" class="form-control" id="telephone" readonly>
+                                            </div>
                                         </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="telephone">FIXO1</label>
+                                        <input value="{{$company->FIXO1}}" name="telephone[0][number]"
+                                               type="text" class="form-control" id="telephone" readonly>
                                     </div>
-                                @endif
-                            @endforeach
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="telephone">FIXO2</label>
+                                        <input value="{{$company->FIXO2}}" name="telephone[0][number]"
+                                               type="text" class="form-control" id="telephone" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="telephone">FIXO3</label>
+                                        <input value="{{$company->FIXO3}}" name="telephone[0][number]"
+                                               type="text" class="form-control" id="telephone" readonly>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
-                            @foreach($company->telephones as $cellphone)
-                                @if($cellphone->type == 'celular')
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="telephone">{{$cellphone->type}} {{ $loop->iteration }}</label>
-                                            <input value="{{$cellphone->number}}" name="telephone[0][number]"
-                                                   type="text" class="form-control" id="telephone" readonly>
+                            @if($company instanceof \App\Models\Company)
+                                @foreach($company->telephones as $cellphone)
+                                    @if($cellphone->type == 'celular')
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="telephone">{{$cellphone->type}} {{ $loop->iteration }}</label>
+                                                <input value="{{$cellphone->number}}" name="cellphone[0][number]"
+                                                       type="text" class="form-control" id="cellphone" readonly>
+                                            </div>
                                         </div>
+                                    @endif
+                                @endforeach
+                            @else
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="cellphone1">CEL1</label>
+                                        <input value="{{$company->CEL1}}" name="cellphone[0][number]"
+                                               type="text" class="form-control" id="cellphone1" readonly>
                                     </div>
-                                @endif
-                            @endforeach
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="cellphone2">CEL2</label>
+                                        <input value="{{$company->CEL2}}" name="cellphone[0][number]"
+                                               type="text" class="form-control" id="cellphone2" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="cellphone3">CEL3</label>
+                                        <input value="{{$company->CEL3}}" name="telephone[0][number]"
+                                               type="text" class="form-control" id="cellphone3" readonly>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                         <div class="row">
                             <div class="col-12">

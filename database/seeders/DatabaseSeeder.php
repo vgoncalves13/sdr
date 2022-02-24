@@ -16,5 +16,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
         $this->call(CarrierSeeder::class);
         $this->call(Sources::class);
+        $this->call(SectorSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(ServiceSeeder::class);
     }
 }

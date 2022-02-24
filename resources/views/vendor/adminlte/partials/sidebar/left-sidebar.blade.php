@@ -7,6 +7,18 @@
         @include('adminlte::partials.common.brand-logo-xs')
     @endif
 
+    {{--  Auth User  --}}
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
+        <div class="info">
+            <p class="text-white">Bem-vindo, {{Auth::user()->people->name}}</p>
+            <form method="POST" action="{{route('logout')}}">
+                @csrf
+                <button type="submit" class="btn btn-xs btn-block btn-danger">sair</button>
+            </form>
+
+        </div>
+    </div>
+
     {{-- Sidebar menu --}}
     <div class="sidebar">
         <nav class="pt-2">

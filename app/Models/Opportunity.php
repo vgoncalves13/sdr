@@ -13,7 +13,8 @@ class Opportunity extends Model
         'contact_name',
         'contact_tel',
         'contact_email',
-        'user_id'
+        'user_id',
+        'temperature'
     ];
 
 
@@ -25,5 +26,10 @@ class Opportunity extends Model
     public function services()
     {
         return $this->belongsToMany(Service::class)->withTimestamps();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

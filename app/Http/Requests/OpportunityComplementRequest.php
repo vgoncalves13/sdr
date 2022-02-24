@@ -26,7 +26,6 @@ class OpportunityComplementRequest extends FormRequest
         return [
             'cnpj' => 'required|unique:companies',
             'name' => 'required',
-            'lines' => 'required'
         ];
     }
 }
