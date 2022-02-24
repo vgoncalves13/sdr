@@ -35,6 +35,7 @@
                     <tr>
                         <th>Nº</th>
                         <th>Nome do contato</th>
+                        <th>Criada por</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -43,6 +44,7 @@
                         <tr>
                             <td>{{$opportunity->id}}</td>
                             <td>{{$opportunity->contact_name}}</td>
+                            <td>{{$opportunity->user->people->name}}</td>
                             <td>
                                 <a class="btn btn-primary btn-sm" href="{{route('opportunities.show',$opportunity)}}">
                                     <i class="fas fa-folder">

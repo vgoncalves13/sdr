@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('admin')->group(function (){
+Route::prefix('admin')->middleware('auth')->group(function (){
     Route::resource('users',\App\Http\Controllers\UserController::class);
     Route::resource('sectors',\App\Http\Controllers\SectorController::class);
     Route::resource('companies',\App\Http\Controllers\CompanyController::class);
@@ -42,8 +42,8 @@ Route::prefix('admin')->group(function (){
         ->name('opportunities.store_complement');
     Route::post('oportunities/{company?}',[\App\Http\Controllers\OpportunityController::class, 'store'])
         ->name('opportunities.store');
-    Route::get('opportunities/dispatch_opportunity_by_name/{company}',[\App\Http\Controllers\OpportunityController::class, 'dispatch_opportunity_by_name'])
-        ->name('opportunities.dispatch_opportunity_by_name');
+    Route::get('opportunities/dispatch_opportunity/{company}/{type?}',[\App\Http\Controllers\OpportunityController::class, 'dispatch_opportunity'])
+        ->name('opportunities.dispatch_opportunity');
 
     //Carriers
     Route::get('carriers/sources/create/{carrier}',[\App\Http\Controllers\CarrierController::class, 'create_source'])
@@ -57,14 +57,13 @@ Route::prefix('admin')->group(function (){
 
     Route::get('/teste/debug',[\App\Http\Controllers\LeadController::class,'debug']);
 
+
+
 });
 
 Route::get('/', function () {
     return view('welcome');
-});
-Route::get('/home',function (){
-    return view('welcome');
-});
+})->middleware('auth');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');

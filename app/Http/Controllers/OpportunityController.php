@@ -69,7 +69,8 @@ class OpportunityController extends Controller
                     Session::flash('alert-class', 'alert-warning');
                     return view('opportunies.create_data');
                 }else{
-                    return view('opportunies.complement_data')->with('external_company', $external_company->first());
+                    return view('opportunies.select_companies')
+                        ->with('companies', $external_company->limit('50')->get());
                 }
             }
             return view('opportunies.create_opportunity')->with('company', $company->first());
@@ -85,14 +86,20 @@ class OpportunityController extends Controller
                 Session::flash('alert-class', 'alert-warning');
                 return view('opportunies.create_data');
             }else{
-                return view('opportunies.complement_data')->with('external_company', $external_company->first());
+                return view('opportunies.select_companies')
+                    ->with('companies', $external_company->limit('50')->get());
             }
         }
         return view('opportunies.select_companies')->with('companies', $company->get());
     }
 
-    public function dispatch_opportunity_by_name(Company $company)
+    public function dispatch_opportunity($company_id, $type)
     {
+        if ($type == 'EXTERNAL'){
+            $company = COMPANIES_LEAD::where('Id',$company_id)->first();
+        }else{
+            $company = Company::find($company_id);
+        }
         return view('opportunies.create_opportunity')->with('company', $company);
     }
 
@@ -102,6 +109,7 @@ class OpportunityController extends Controller
      */
     public function storeAndComplement(OpportunityComplementRequest $request)
     {
+
         $telephones = $request->telephone;
         $telephone_data = [];
         foreach ($telephones as $key => $value) {
@@ -116,9 +124,11 @@ class OpportunityController extends Controller
         }
         $company = Company::create($request->all());
         $company->address()->create($request->all());
-        $company->opportunities()->create($request->all());
         $company->telephones()->createMany($telephone_data);
         $company->telephones()->createMany($cellphone_data);
+
+        $opportunity = $company->opportunities()->create($request->all());
+        $opportunity->services()->attach($request->services);
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Oportunidade',

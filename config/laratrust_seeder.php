@@ -16,18 +16,22 @@ return [
             'company' => 'c,r,u,d',
             'manager' => 'c,r,u,d',
             'user' => 'c,r,u,d',
-            'sector' => 'c,r,u,d'
+            'sector' => 'c,r,u,d',
+            'opportunity' => 'c,r,u,d',
         ],
         'manager' => [
             'company' => 'c,r,u,d',
             'user' => 'c,r,u,d',
-            'sector' => 'c,r,u,d'
+            'sector' => 'c,r,u,d',
+            'opportunity' => 'c,r,u',
         ],
         'external_salesman' => [
             'company' => 'c,r,u',
+            'opportunity' => 'c,r',
         ],
         'internal_salesman' => [
             'company' => 'c,r,u',
+            'opportunity' => 'c,r',
         ]
     ],
 
