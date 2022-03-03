@@ -23,25 +23,6 @@
                                           theme="success" url="#" url-text="Mais informações" icon="fas fa-lightbulb"/>
                 </div>
             </div>
-            {{--Dados de temperatura oportunidades--}}
-            <div class="row">
-                <div class="col-12 col-md-3">
-                    <x-adminlte-small-box title="{{$count_opportunities_temperatures[25] ?? 0}}" text="Oportunidades em 25%"
-                                          theme="teal" url="{{route('companies.index')}}" url-text="Mais informações" icon="fas fa-temperature-empty"/>
-                </div>
-                <div class="col-12 col-md-3">
-                    <x-adminlte-small-box title="{{$count_opportunities_temperatures[50] ?? 0}}" text="Oportunidades em 50%"
-                                          theme="lime" url="{{route('opportunities.index')}}" url-text="Mais informações" icon="fas fa-temperature-half"/>
-                </div>
-                <div class="col-12 col-md-3">
-                    <x-adminlte-small-box title="{{$count_opportunities_temperatures[75] ?? 0}}" text="Oportunidades em 75%"
-                                          theme="orange" url="#" url-text="Mais informações" icon="fas fa-temperature-three-quarters"/>
-                </div>
-                <div class="col-12 col-md-3">
-                    <x-adminlte-small-box title="{{$count_opportunities_temperatures[95] ?? 0}}" text="Oportunidades em 95%"
-                                          theme="danger" url="#" url-text="Mais informações" icon="fas fa-temperature-full"/>
-                </div>
-            </div>
         </div>
     </div>
     {{--  Funnel Sales Chart  --}}
@@ -53,8 +34,37 @@
             </h3>
         </div>
         <div class="card-body">
-            <div class="col-12">
-                <canvas id="canvas_sales_funnel" height="200" width="auto"></canvas>
+            {{--Dados de temperatura oportunidades--}}
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="row">
+                        <div class="col-12">
+                            <x-adminlte-small-box title="{{$count_opportunities_temperatures[25] ?? 0}}" text="Oportunidades em 25%"
+                                                  theme="teal" icon="fas fa-temperature-empty"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <x-adminlte-small-box title="{{$count_opportunities_temperatures[50] ?? 0}}" text="Oportunidades em 50%"
+                                                  theme="lime" icon="fas fa-temperature-half"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <x-adminlte-small-box title="{{$count_opportunities_temperatures[75] ?? 0}}" text="Oportunidades em 75%"
+                                                  theme="orange" icon="fas fa-temperature-three-quarters"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <x-adminlte-small-box title="{{$count_opportunities_temperatures[95] ?? 0}}" text="Oportunidades em 95%"
+                                                  theme="danger" icon="fas fa-temperature-full"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <canvas id="canvas_sales_funnel" height="200" width="auto"></canvas>
+                </div>
             </div>
         </div>
     </div>

@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OpportunityComplementRequest;
 use App\Http\Requests\OpportunityCreateRequest;
-use App\Http\Requests\OpportunityStoreRequest;
-use App\Models\Address;
 use App\Models\COMPANIES_LEAD;
 use App\Models\Company;
 use App\Models\Opportunity;
+use App\Models\OpportunityFollowUp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class OpportunityController extends Controller
 {
 
     protected $companies_lead;
+    protected $opportunity;
 
     public function __construct()
     {
         $this->companies_lead = new COMPANIES_LEAD();
+        $this->opportunity = new Opportunity();
     }
 
     /**
@@ -125,13 +125,17 @@ class OpportunityController extends Controller
         $opportunity = $company->opportunities()->create($request->all());
         $opportunity->services()->attach($request->services);
 
+        $opp_followup = new OpportunityFollowUp();
+        $opp_followup->observations = $request->observations;
+        $opp_followup->opportunity_id = $opportunity->id;
+        $opp_followup->save();
+
         Session::flash('message',__('messages.success',[
             'objeto' => 'Oportunidade',
             'nome' => ''
         ]));
         Session::flash('alert-class', 'alert-success');
         return redirect(route('opportunities.index'));
-
     }
 
     /**
@@ -142,6 +146,11 @@ class OpportunityController extends Controller
     {
         $opportunity = $company->opportunities()->create($request->all());
         $opportunity->services()->attach($request->services);
+
+        $opp_followup = new OpportunityFollowUp();
+        $opp_followup->observations = $request->observations;
+        $opp_followup->opportunity_id = $opportunity->id;
+        $opp_followup->save();
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Oportunidade',
@@ -155,15 +164,15 @@ class OpportunityController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
      */
     public function show(Opportunity $opportunity)
     {
+        $opp_followup = OpportunityFollowUp::where('opportunity_id', $opportunity->id)
+            ->get();
         if (
             Auth::user()->hasRole(['administrator', 'manager']) ||
-            Auth::user()->owns($opportunity)
-        ){
-            return view('opportunies.show')->with(compact('opportunity'));
+            Auth::user()->owns($opportunity)) {
+            return view('opportunies.show')->with(compact('opportunity','opp_followup'));
         }else{
             return abort('403');
         }
@@ -173,11 +182,10 @@ class OpportunityController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
      */
     public function edit(Opportunity $opportunity)
     {
-        //
+        return view('opportunies.edit')->with(compact('opportunity'));
     }
 
     /**
@@ -185,11 +193,20 @@ class OpportunityController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Opportunity $opportunity)
     {
-        //
+        $opportunity->temperature = $this->opportunity->doFollowUp($opportunity->temperature);
+        $opportunity->save();
+
+        $opp_followup = new OpportunityFollowUp();
+        $opp_followup->observations = $request->observations;
+        $opp_followup->opportunity_id = $opportunity->id;
+        $opp_followup->save();
+
+        Session::flash('message',__('messages.followup'));
+        Session::flash('alert-class', 'alert-success');
+        return redirect(route('opportunities.show',$opportunity));
     }
 
     /**

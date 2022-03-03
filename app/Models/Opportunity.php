@@ -26,11 +26,27 @@ class Opportunity extends Model
 
     public function services()
     {
-        return $this->belongsToMany(Service::class)->withTimestamps();
+        return $this->belongsToMany(Service::class)->withPivot('quantity')->withTimestamps();
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function doFollowUp($temperature)
+    {
+        switch ($temperature){
+            case 25:
+                $temperature = 50;
+                break;
+            case 50:
+                $temperature = 75;
+                break;
+            case 75:
+                $temperature = 95;
+                break;
+        }
+        return $temperature;
     }
 }

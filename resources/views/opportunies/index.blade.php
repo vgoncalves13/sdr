@@ -52,7 +52,9 @@
                                 <td><small>{{\Carbon\Carbon::parse($opportunity->updated_at)->format('d/m/Y H:i')}}</small></td>
                                 <td>
                                     <a class="btn btn-primary mx-1 shadow btn-block" href="{{route('opportunities.show',$opportunity)}}">Ver </a>
-                                    <a class="btn btn-outline-primary mx-1 shadow btn-block" href="{{route('opportunities.edit',$opportunity)}}">Editar</a>
+                                    <a class="btn btn-outline-primary mx-1 shadow btn-block
+                                        @if($opportunity->temperature == 95) disabled  @endif"
+                                       href="{{route('opportunities.edit',$opportunity)}}">Efetuar follow up</a>
                                 </td>
                             </tr>
                         @endforeach
