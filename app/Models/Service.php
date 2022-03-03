@@ -18,6 +18,6 @@ class Service extends Model
 
     public function opportunities()
     {
-        return $this->belongsToMany(Opportunity::class);
+        return $this->belongsToMany(Opportunity::class)->withPivot('quantity');
     }
 }

@@ -26,10 +26,62 @@
                             <p><strong>Temperatura:</strong> {{$opportunity->temperature}}%</p>
                             <p class="small">
                                 <strong>Cadastrada em:</strong> {{$opportunity->created_at->format('d/m/Y H:i')}}
-                                por <strong>{{$opportunity->user->people->name}}</strong></p>
+                                por <strong>{{$opportunity->user->people->name}}</strong>
+                            </p>
+                            @if($opportunity->temperature != 95)
+                                <a class="btn btn-primary shadow"
+                                   href="{{route('opportunities.edit',$opportunity)}}">Efetuar follow up
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h3>Serviços</h3>
+            <div class="card">
+                <div class="card-body">
+                    @foreach($opportunity->services as $service)
+                        <p><strong>Nome do serviço:</strong> {{$service->name}}</p>
+                        <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
+                        <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            @foreach($opp_followup as $followups)
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="heading{{$loop->iteration}}">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link" data-toggle="collapse"
+                                        data-target="#collapse{{$loop->iteration}}"
+                                        aria-expanded="false" aria-controls="collapse{{$loop->iteration}}">
+                                    Histórico @if($loop->iteration == 1) 25%
+                                    @elseif($loop->iteration == 2) 50%
+                                    @elseif($loop->iteration == 3) 75%
+                                    @else 95%
+                                    @endif
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapse{{$loop->iteration}}" class="collapse show"
+                             aria-labelledby="heading{{$loop->iteration}}" data-parent="#accordion">
+                            <div class="card-body">
+                                <p><strong>Observações: </strong>{{$followups->observations}}</p>
+                                <p><strong>Follow up realizado em: </strong>{{$followups->created_at->format('d/m/Y H:i')}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 @stop
