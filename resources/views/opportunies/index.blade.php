@@ -12,7 +12,7 @@
             <a class="btn btn-primary" href="{{route('opportunities.create')}}">Cadastrar nova oportunidade</a>
         </div>
         <div class="row">
-            <div class="col-12 col-md-6 col-lg-8">
+            <div class="col-12">
                 <div class="table-responsive">
                     <table class="table">
                         <tr>
@@ -28,7 +28,9 @@
                         @foreach($opportunities as $opportunity)
                             <tr>
                                 <td>{{$opportunity->id}}</td>
-                                <td>{{$opportunity->company->name}}</td>
+                                <td data-toggle="tooltip" data-placement="bottom" title="{{$opportunity->company->name}}">
+                                    {{Str::limit($opportunity->company->name,10)}}
+                                </td>
                                 <td>{{$opportunity->temperature}}%</td>
                                 <td>{{$opportunity->company->cnpj}}</td>
                                 <td>
@@ -55,78 +57,10 @@
                             </tr>
                         @endforeach
                     </table>
-                    {{$opportunities->links()}}
                 </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-4">
-                <canvas id="canvas_sales_funnel" height="200" width="auto"></canvas>
             </div>
         </div>
     </div>
 @stop
 
-@section('js')
-    <script>
 
-        let json = <?php echo json_encode($count_opportunities_temperatures); ?>;
-
-        let keys = [];
-        let values = [];
-
-        for(let i in json){
-            keys.push(i);
-            values.push(json[i]);
-        }
-        if(values.length < 4) {
-            while (values.length < 4){
-                values.push(0);
-            }
-        }
-
-        const ctx = document.getElementById('canvas_sales_funnel').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'funnel',
-            data: {
-                datasets: [{
-                    data: values,
-                    backgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56",
-                        "#8e3922"
-                    ],
-                    hoverBackgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56",
-                        "#8e3922"
-                    ]
-                }],
-                labels: keys
-            },
-            options: {
-                sort: 'desc',
-                responsive: true,
-                legend: {
-                    position: 'top'
-                },
-                title: {
-                    display: true,
-                    text: 'Gráfico funil de vendas'
-                },
-                animation: {
-                    animateScale: true,
-                    animateRotate: true
-                },
-                tooltips: {
-                    enabled: true,
-                    mode: "index",
-                    position: "average",
-
-                }
-            }
-        });
-
-
-    </script>
-@endsection

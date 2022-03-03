@@ -9,7 +9,7 @@
     <div class="card card-default">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
+                <div class="p-3">
                     <table class="table" id="data-table">
                         <thead>
                             <tr>
@@ -28,7 +28,9 @@
                             @foreach($companies as $company)
                                 <tr>
                                     <td>{{$company->id ?? $company->Id}}</td>
-                                    <td>{{$company->name ?? $company->NOME}}</td>
+                                    <td data-toggle="tooltip" data-placement="bottom" title="{{$company->name ?? $company->NOME}}">
+                                        {{Str::limit($company->name,10) ?? Str::limit($company->NOME,10)}}
+                                    </td>
                                     <td>{{$company->contact_name}}</td>
                                     <td>{{$company->address->address ?? $company->ENDERECO}}</td>
                                     <td>{{$company->address->city ?? $company->CIDADE}}</td>
@@ -68,7 +70,10 @@
                                     <td><small>@if(isset($company->updated_at)){{\Carbon\Carbon::parse($company->updated_at)->format('d/m/Y H:i')}}@else @endif</small></td>
                                     <td>
                                         <a class="btn btn-flat btn-info btn-sm"
-                                           href="{{route('opportunities.dispatch_opportunity', [$company->id ?? $company->Id, $company->id ? 'INTERNAL' : 'EXTERNAL'])}}">Continuar com esta empresa</a>
+                                           href="{{route('opportunities.dispatch_opportunity',
+                                        [$company->id ?? $company->Id, $company->id ? 'INTERNAL' : 'EXTERNAL'])}}">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
