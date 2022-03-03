@@ -10,6 +10,7 @@ use App\Models\COMPANIES_LEAD;
 use App\Models\Company;
 use App\Models\Opportunity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -29,19 +30,12 @@ class OpportunityController extends Controller
      */
     public function index()
     {
-        $opportunities = Opportunity::with(['company.address'])->paginate(10);
-        $sql_opportunities_temperature = DB::table('opportunities')
-            ->select(DB::raw('temperature,count(*) as total_by_temperature'))
-            ->groupBy('temperature')
-            ->orderBy('temperature','desc')
-            ->get();
-        $arr = array();
-        foreach ($sql_opportunities_temperature as $key => $op){
-
-            $arr[$op->temperature] = $op->total_by_temperature;
+        if (Auth::user()->hasRole('administrator')){
+            $opportunities = Opportunity::with(['company.address'])->get();
+        }else {
+            $opportunities = Opportunity::with(['company.address'])->where('user_id',Auth::id())->get();
         }
-        $count_opportunities_temperatures = $arr;
-        return view('opportunies.index')->with(compact('opportunities','count_opportunities_temperatures'));
+        return view('opportunies.index')->with(compact('opportunities'));
     }
 
     /**
@@ -97,10 +91,11 @@ class OpportunityController extends Controller
     {
         if ($type == 'EXTERNAL'){
             $company = COMPANIES_LEAD::where('Id',$company_id)->first();
+            return view('opportunies.create_opportunity_external')->with('company', $company);
         }else{
             $company = Company::find($company_id);
+            return view('opportunies.create_opportunity')->with('company', $company);
         }
-        return view('opportunies.create_opportunity')->with('company', $company);
     }
 
     /**
@@ -143,7 +138,7 @@ class OpportunityController extends Controller
      * Store a new opportunity to an existing Company
      *
      */
-    public function store(OpportunityStoreRequest $request, Company $company = null)
+    public function store(OpportunityComplementRequest $request, Company $company = null)
     {
         $opportunity = $company->opportunities()->create($request->all());
         $opportunity->services()->attach($request->services);
@@ -164,7 +159,14 @@ class OpportunityController extends Controller
      */
     public function show(Opportunity $opportunity)
     {
-        //
+        if (
+            Auth::user()->hasRole(['administrator', 'manager']) ||
+            Auth::user()->owns($opportunity)
+        ){
+            return view('opportunies.show')->with(compact('opportunity'));
+        }else{
+            return abort('403');
+        }
     }
 
     /**

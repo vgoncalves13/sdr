@@ -31,7 +31,8 @@ class UserRequest extends FormRequest
             'email' => ['required','unique:peoples'],
             'telephone' => 'required',
             'sector_id' => 'required',
-            'UF' => 'required'
+            'UF' => 'required',
+            'role' => 'required'
         ];
     }
 }

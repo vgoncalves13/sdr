@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'layout_topnav' => null,
+    'layout_topnav' => false,
     'layout_boxed' => null,
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
@@ -146,9 +146,9 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_collapse' => true,
+    'sidebar_collapse_auto_size' => true,
+    'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -245,26 +245,31 @@ return [
             'text' => 'Usuários',
             'url'  => 'admin/users',
             'icon' => 'fas fa-fw fa-user',
+            'active' => ['admin/users/*']
         ],
         [
             'text' => 'Setores',
             'url'  => 'admin/sectors',
             'icon' => 'fas fa-fw fa-bezier-curve',
+            'active' => ['admin/sectors/*']
         ],
         [
             'text' => 'Empresas',
             'url'  => 'admin/companies',
-            'icon' => 'fas fa-fw fa-building'
+            'icon' => 'fas fa-fw fa-building',
+            'active' => ['admin/companies/*']
         ],
         [
             'text' => 'Oportunidades',
             'url'  => 'admin/opportunities',
-            'icon' => 'fas fa-fw fa-lightbulb'
+            'icon' => 'fas fa-fw fa-lightbulb',
+            'active' => ['admin/opportunities/*']
         ],
         [
             'text' => 'Serviços',
             'url'  => 'admin/services',
-            'icon' => 'fas fa-fw fa-solid fa-phone'
+            'icon' => 'fas fa-fw fa-solid fa-phone',
+            'active' => ['admin/services/*']
         ],
         [
             'header' => 'MAILING'
@@ -272,17 +277,20 @@ return [
         [
             'text' => 'Processar leads',
             'url' => 'admin/leads',
-            'icon' => 'fas fa-paper-plane'
+            'icon' => 'fas fa-paper-plane',
+            'active' => ['admin/leads/*']
         ],
         [
             'text' => 'Exportar',
             'url' => 'admin/leads/export/leads',
-            'icon' => 'fas fa-file-export'
+            'icon' => 'fas fa-file-export',
+            'active' => ['admin/leads/export/*']
         ],
         [
             'text' => 'Operadoras',
             'url' => 'admin/carriers',
-            'icon' => 'fas fa-phone'
+            'icon' => 'fas fa-phone',
+            'active' => ['admin/carriers/*']
         ]
 
     ],

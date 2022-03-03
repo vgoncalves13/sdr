@@ -24,6 +24,7 @@ class OpportunityStoreRequest extends FormRequest
     public function rules()
     {
         return [
+
         ];
     }
 }

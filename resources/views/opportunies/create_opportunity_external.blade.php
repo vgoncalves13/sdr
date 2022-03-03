@@ -3,7 +3,7 @@
 @section('title', 'Cadastrar Oportunidade')
 
 @section('content_header')
-    <h1>{{$external_company->NOME}}</h1>
+    <h1>{{$company->NOME}}</h1>
 @stop
 
 @section('content')
@@ -15,33 +15,34 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form method="POST" action="{{route('opportunities.store_complement')}}" role="form">
+                <form method="POST" action="{{route('opportunities.store_complement',$company)}}" role="form">
                     @csrf
+                    <input name="company_id" type="hidden" value="{{$company->Id}}">
                     <input name="user_id" type="hidden" value="{{auth()->id()}}">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="cnpj">CNPJ</label>
-                            <input value="{{$external_company->CNPJ}}" name="cnpj" type="text" class="form-control" id="cnpj"
-                                   placeholder="Apenas números" readonly>
+                            <input value="{{$company->CNPJ}}" name="cnpj" type="text" class="form-control" id="cnpj"
+                                   placeholder="Apenas números" {{$company->CNPJ ? 'readonly':''}}>
                         </div>
                         <div class="form-group">
                             <label for="nome">Nome</label>
-                            <input value="{{$external_company->NOME}}" name="name" type="text" class="form-control" id="name"
-                                   placeholder="Nome" readonly>
+                            <input value="{{$company->NOME}}" name="name" type="text" class="form-control" id="name"
+                                   placeholder="Nome" {{$company->NOME ? 'readonly':''}}>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address">Endereço</label>
-                                    <input value="{{$external_company->ENDERECO}}" name="address" type="text" class="form-control" id="address"
-                                           placeholder="Endereço" readonly>
+                                    <input value="{{$company->ENDERECO}}" name="address" type="text"
+                                           class="form-control" id="address" placeholder="Endereço" {{$company->ENDERECO ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="number">Número</label>
-                                    <input value="{{$external_company->NUMERO}}" name="number" type="text" class="form-control" id="number"
-                                           placeholder="Número" readonly>
+                                    <input value="{{$company->NUMERO}}" name="number" type="text"
+                                           class="form-control" id="number" placeholder="Número" {{$company->NUMERO ? 'readonly':''}}>
                                 </div>
                             </div>
                         </div>
@@ -49,15 +50,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="address2">Complemento</label>
-                                    <input value="{{$external_company->COMPLEMENTO}}" name="address2" type="text" class="form-control" id="address2"
-                                           placeholder="Complemento" @if($external_company->COMPLEMENTO == '')@else readonly @endif>
+                                    <input value="{{$company->COMPLEMENTO}}" name="address2" type="text"
+                                           class="form-control" id="address2" placeholder="Complemento" {{$company->COMPLEMENTO ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="district">Bairro</label>
-                                    <input value="{{$external_company->BAIRRO}}" name="district" type="text" class="form-control" id="district"
-                                           placeholder="Bairro" readonly>
+                                    <input value="{{$company->BAIRRO}}" name="district" type="text"
+                                           class="form-control" id="district" placeholder="Bairro" {{$company->BAIRRO ? 'readonly':''}}>
                                 </div>
                             </div>
                         </div>
@@ -65,74 +66,106 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="city">Cidade</label>
-                                    <input value="{{$external_company->CIDADE}}" name="city" type="text" class="form-control" id="city"
-                                           placeholder="Cidade" readonly>
+                                    <input value="{{$company->CIDADE}}" name="city" type="text"
+                                           class="form-control" id="city" placeholder="Cidade" {{$company->CIDADE ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="state">UF</label>
-                                    <input value="{{$external_company->UF}}" name="state" type="text" class="form-control" id="state"
-                                           placeholder="UF" readonly>
-                                </div>
+                                @if(empty($company->UF))
+                                    <div class="form-group">
+                                        <label for="UF">UF</label>
+                                        <select class="form-control" name="state" id="UF">
+                                            <option value="">Selecione um estado</option>
+                                            <option @if(old('state') == 'AC') selected @endif value="AC">Acre</option>
+                                            <option @if(old('state') == 'AL') selected @endif value="AL">Alagoas</option>
+                                            <option @if(old('state') == 'AP') selected @endif value="AP">Amapá</option>
+                                            <option @if(old('state') == 'AM') selected @endif value="AM">Amazonas</option>
+                                            <option @if(old('state') == 'BA') selected @endif value="BA">Bahia</option>
+                                            <option @if(old('state') == 'CE') selected @endif value="CE">Ceará</option>
+                                            <option @if(old('state') == 'DF') selected @endif value="DF">Distrito Federal</option>
+                                            <option @if(old('state') == 'ES') selected @endif value="ES">Espírito Santo</option>
+                                            <option @if(old('state') == 'GO') selected @endif value="GO">Goiás</option>
+                                            <option @if(old('state') == 'MA') selected @endif value="MA">Maranhão</option>
+                                            <option @if(old('state') == 'MT') selected @endif value="MT">Mato Grosso</option>
+                                            <option @if(old('state') == 'MS') selected @endif value="MS">Mato Grosso do Sul</option>
+                                            <option @if(old('state') == 'MG') selected @endif value="MG">Minas Gerais</option>
+                                            <option @if(old('state') == 'PA') selected @endif value="PA">Pará</option>
+                                            <option @if(old('state') == 'PB') selected @endif value="PB">Paraíba</option>
+                                            <option @if(old('state') == 'PR') selected @endif value="PR">Paraná</option>
+                                            <option @if(old('state') == 'PE') selected @endif value="PE">Pernambuco</option>
+                                            <option @if(old('state') == 'PI') selected @endif value="PI">Piauí</option>
+                                            <option @if(old('state') == 'RJ') selected @endif value="RJ">Rio de Janeiro</option>
+                                            <option @if(old('state') == 'RN') selected @endif value="RN">Rio Grande do Norte</option>
+                                            <option @if(old('state') == 'RS') selected @endif value="RS">Rio Grande do Sul</option>
+                                            <option @if(old('state') == 'RO') selected @endif value="RO">Rondônia</option>
+                                            <option @if(old('state') == 'RR') selected @endif value="RR">Roraima</option>
+                                            <option @if(old('state') == 'SC') selected @endif value="SC">Santa Catarina</option>
+                                            <option @if(old('state') == 'SP') selected @endif value="SP">São Paulo</option>
+                                            <option @if(old('state') == 'SE') selected @endif value="SE">Sergipe</option>
+                                            <option @if(old('state') == 'TO') selected @endif value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                @else
+                                    <div class="form-group">
+                                        <label for="state">UF</label>
+                                        <input value="{{$company->UF}}" name="state" type="text"
+                                               class="form-control" id="state" placeholder="UF" readonly>
+                                    </div>
+                                @endif
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="postal_code">CEP</label>
-                                    <input value="{{$external_company->CEP}}" name="postal_code" type="text" class="form-control" id="postal_code"
-                                           placeholder="CEP" readonly>
+                                    <input value="{{$company->CEP}}" name="postal_code"
+                                           type="text" class="form-control" id="postal_code" placeholder="CEP" {{$company->CEP ? 'readonly':''}}>
                                 </div>
                             </div>
                         </div>
                         <h4>Telefones</h4>
+
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telephone">Fixo 1</label>
-                                    <input value="{{$external_company->FIXO1}}" name="telephone[0][number]" type="text" class="form-control" id="telephone"
-                                           placeholder="Fixo 1" @if($external_company->FIXO1 == '')@else readonly @endif>
+                                    <label for="telephone">FIXO1</label>
+                                    <input value="{{$company->FIXO1}}" name="telephone[0][number]"
+                                           type="text" class="form-control" id="telephone" {{$company->FIXO1 ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telephone2">Fixo 2</label>
-                                    <input value="{{$external_company->FIXO2}}" name="telephone[1][number]"
-                                           type="text" class="form-control" id="telephone2"
-                                           placeholder="Fixo 2" @if($external_company->FIXO2 == '')@else readonly @endif>
+                                    <label for="telephone">FIXO2</label>
+                                    <input value="{{$company->FIXO2}}" name="telephone[0][number]"
+                                           type="text" class="form-control" id="telephone" {{$company->FIXO2 ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="telephone3">Fixo 3</label>
-                                    <input value="{{$external_company->FIXO3}}" name="telephone[2][number]"
-                                           type="text" class="form-control telephone" id="telephone3"
-                                           placeholder="Fixo 3" @if($external_company->FIXO3 == '')@else readonly @endif>
+                                    <label for="telephone">FIXO3</label>
+                                    <input value="{{$company->FIXO3}}" name="telephone[0][number]"
+                                           type="text" class="form-control" id="telephone" {{$company->FIXO3 ? 'readonly':''}}>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="cel1">Celular 1</label>
-                                    <input value="{{$external_company->CEL1}}" name="cellphone[0][number]"
-                                           type="text" class="form-control cellphone" id="cel1"
-                                           placeholder="Celular 1" @if($external_company->CEL1 == '')@else readonly @endif>
+                                    <label for="cellphone1">CEL1</label>
+                                    <input value="{{$company->CEL1}}" name="cellphone[0][number]"
+                                           type="text" class="form-control" id="cellphone1" {{$company->CEL1 ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="cel2">Celular 2</label>
-                                    <input value="{{$external_company->CEL2}}" name="cellphone[1][number]"
-                                           type="text" class="form-control cellphone" id="cel2"
-                                           placeholder="Celular 2" @if($external_company->CEL2 == '')@else readonly @endif>
+                                    <label for="cellphone2">CEL2</label>
+                                    <input value="{{$company->CEL2}}" name="cellphone[0][number]"
+                                           type="text" class="form-control" id="cellphone2" {{$company->CEL2 ? 'readonly':''}}>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="cel3">Celular 3</label>
-                                    <input value="{{$external_company->CEL3}}" name="cellphone[2][number]"
-                                           type="text" class="form-control cellphone" id="cel3"
-                                           placeholder="Celular 3" @if($external_company->CEL3 == '')@else readonly @endif>
+                                    <label for="cellphone3">CEL3</label>
+                                    <input value="{{$company->CEL3}}" name="telephone[0][number]"
+                                           type="text" class="form-control" id="cellphone3" {{$company->CEL3 ? 'readonly':''}}>
                                 </div>
                             </div>
                         </div>

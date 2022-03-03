@@ -20,11 +20,11 @@
                     <div class="card-body">
                            <div class="form-group">
                                <label for="name">Nome usuário</label>
-                               <input name="name" type="text" class="form-control" id="name" placeholder="Nome usuário">
+                               <input value="{{old('name')}}" name="name" type="text" class="form-control" id="name" placeholder="Nome usuário">
                            </div>
                            <div class="form-group">
                                <label for="login">Login</label>
-                               <input name="login" type="text" class="form-control" id="login" placeholder="Login">
+                               <input value="{{old('login')}}" name="login" type="text" class="form-control" id="login" placeholder="Login">
                            </div>
                            <div class="form-group">
                                <label for="password">Senha</label>
@@ -32,18 +32,18 @@
                            </div>
                            <div class="form-group">
                                <label for="telephone">Telefone</label>
-                               <input type="text" name="telephone" class="form-control" id="telephone" placeholder="Telefone">
+                               <input value="{{old('telephone')}}" type="text" name="telephone" class="form-control" id="telephone" placeholder="Telefone">
                            </div>
                            <div class="form-group">
                                <label for="email">E-mail</label>
-                               <input type="text" name="email" class="form-control" id="email" placeholder="E-mail">
+                               <input value="{{old('email')}}" type="email" name="email" class="form-control" id="email" placeholder="E-mail">
                            </div>
                         <div class="form-group">
                             <label for="role">Cargo</label>
                             <select class="form-control" name="role" id="role">
-                                <option>Selecione um cargo...</option>
+                                <option value="">Selecione um cargo...</option>
                                 @foreach ($roles as $key => $value)
-                                    <option value="{{ $key }}">
+                                    <option @if(old('role') == $key) selected @endif value="{{ $key }}">
                                         {{ $value }}
                                     </option>
                                 @endforeach
@@ -52,9 +52,9 @@
                             <div class="form-group">
                                 <label for="sector">Setor</label>
                                 <select class="form-control" name="sector_id" id="sector">
-                                    <option>Selecione um setor...</option>
+                                    <option value="">Selecione um setor...</option>
                                     @foreach ($sectors as $key => $value)
-                                        <option value="{{ $key }}">
+                                        <option @if(old('sector_id') == $key) selected @endif value="{{ $key }}">
                                             {{ $value }}
                                         </option>
                                     @endforeach
@@ -63,6 +63,7 @@
                             <div class="form-group">
                                 <label for="UF">UF</label>
                                 <select class="form-control" name="UF" id="UF">
+                                    <option value="">Selecione um estado</option>
                                     <option value="AC">Acre</option>
                                     <option value="AL">Alagoas</option>
                                     <option value="AP">Amapá</option>
@@ -92,7 +93,6 @@
                                     <option value="TO">Tocantins</option>
                                 </select>
                             </div>
-
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

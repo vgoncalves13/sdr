@@ -57,15 +57,18 @@ Route::prefix('admin')->middleware('auth')->group(function (){
 
     Route::get('/teste/debug',[\App\Http\Controllers\LeadController::class,'debug']);
 
+});
 
-
+Route::get('/home', function () {
+    return redirect('/');
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/dashboard');
 })->middleware('auth');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard',[\App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
 
 require __DIR__.'/auth.php';

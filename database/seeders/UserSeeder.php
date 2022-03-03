@@ -28,5 +28,8 @@ class UserSeeder extends Seeder
            'sector_id' => 1,
            'telephone' => '9999999',
         ]);
+
+        $user->attachRole('administrator');
     }
+
 }

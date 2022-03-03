@@ -14,7 +14,8 @@ class Opportunity extends Model
         'contact_tel',
         'contact_email',
         'user_id',
-        'temperature'
+        'temperature',
+        'observation'
     ];
 
 

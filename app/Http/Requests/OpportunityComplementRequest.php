@@ -24,8 +24,19 @@ class OpportunityComplementRequest extends FormRequest
     public function rules()
     {
         return [
-            'cnpj' => 'required|unique:companies',
+            'cnpj' => 'required',
             'name' => 'required',
+            'address' => 'required',
+            'number' => 'required',
+            'district' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'postal_code' => 'required',
+            'contact_name' => 'required',
+            'contact_tel' => 'required',
+            'contact_email' => 'required',
+            'services.*.service_id' => 'required',
+            'services.*.quantity' => 'required'
         ];
     }
 }
