@@ -63,11 +63,7 @@
                                 <button class="btn btn-link" data-toggle="collapse"
                                         data-target="#collapse{{$loop->iteration}}"
                                         aria-expanded="false" aria-controls="collapse{{$loop->iteration}}">
-                                    Histórico @if($loop->iteration == 1) 25%
-                                    @elseif($loop->iteration == 2) 50%
-                                    @elseif($loop->iteration == 3) 75%
-                                    @else 95%
-                                    @endif
+                                    Histórico {{$loop->iteration}}
                                 </button>
                             </h5>
                         </div>
@@ -75,12 +71,22 @@
                         <div id="collapse{{$loop->iteration}}" class="collapse show"
                              aria-labelledby="heading{{$loop->iteration}}" data-parent="#accordion">
                             <div class="card-body">
+                                <p><strong>Temperatura: </strong>{{$followups->temperature}}%</p>
                                 <p><strong>Observações: </strong>{{$followups->observations}}</p>
                                 <p><strong>Follow up realizado em: </strong>{{$followups->created_at->format('d/m/Y H:i')}}</p>
                             </div>
                         </div>
                     </div>
                 </div>
+                @if(!$loop->last)
+                    <div class="row">
+                        <div class="col-12 mb-4 mt-2">
+                            <div class="d-flex justify-content-center">
+                                <i class="fa-solid fa-arrow-down fa-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             @endforeach
         </div>
     </div>

@@ -10,4 +10,15 @@ class OpportunityFollowUp extends Model
     use HasFactory;
 
     protected $table = 'opportunities_followup';
+
+    protected $fillable = [
+        'opportunity_id',
+        'temperature',
+        'observations'
+    ];
+
+    public function opportunity()
+    {
+        return $this->belongsTo(Opportunity::class);
+    }
 }
