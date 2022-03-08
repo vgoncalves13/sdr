@@ -196,13 +196,11 @@ class OpportunityController extends Controller
      */
     public function update(Request $request, Opportunity $opportunity)
     {
-        $opportunity->temperature = $this->opportunity->doFollowUp($opportunity->temperature);
+
+        $opportunity->temperature = $request->temperature;
         $opportunity->save();
 
-        $opp_followup = new OpportunityFollowUp();
-        $opp_followup->observations = $request->observations;
-        $opp_followup->opportunity_id = $opportunity->id;
-        $opp_followup->save();
+        $opportunity->opportunities_followup()->create($request->all());
 
         Session::flash('message',__('messages.followup'));
         Session::flash('alert-class', 'alert-success');

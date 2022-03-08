@@ -34,19 +34,8 @@ class Opportunity extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function doFollowUp($temperature)
+    public function opportunities_followup()
     {
-        switch ($temperature){
-            case 25:
-                $temperature = 50;
-                break;
-            case 50:
-                $temperature = 75;
-                break;
-            case 75:
-                $temperature = 95;
-                break;
-        }
-        return $temperature;
+        return $this->hasMany(OpportunityFollowUp::class);
     }
 }
