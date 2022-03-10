@@ -14,8 +14,12 @@ class ApiController extends Controller
         return response($leads, 200);
     }
 
-    public function getServicesList()
+    public function getServicesList($id = null)
     {
+        if (isset($id)){
+            $list = Service::findOrfail($id);
+            return response()->json(['data' => $list]);
+        }
         $list = Service::all();
         return response()->json(['data' => $list]);
     }

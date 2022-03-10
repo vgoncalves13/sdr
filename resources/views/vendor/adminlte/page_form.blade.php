@@ -48,31 +48,85 @@
                 class: 'card',
                 id: 'card_' + id_select
             });
-            $('<div>').attr({
+            var card_bord = $('<div>').attr({
                 class: 'card-body',
                 id: 'card_body_' + id_select
             }).appendTo(div_card);
 
+            var row_card = $('<div>').attr({
+                class: 'row',
+                id: 'row_' + id_select
+            }).appendTo(card_bord);
+
+
+            var col_card1 = $('<div>').attr({
+                class: 'col-12 col-md-6',
+                id: 'col1_' + id_select
+            }).appendTo(row_card);
+
+            var col_card2 = $('<div>').attr({
+                class: 'col-12 col-md-6',
+                id: 'col2_' + id_select
+            }).appendTo(row_card);
+
             div_card.appendTo('#container-input-services');
 
+            //Service Select
             $('<label>').attr({
                 for:'service_' + id_select,
-            }).text('Serviço').appendTo('#card_body_' + id_select);
+            }).text('Serviço').appendTo('#col1_' + id_select);
             $('<select>').attr({
                 id: 'service_' + id_select,
                 name: "services[" +  id_array  + "][service_id]",
                 class: 'form-control'
-            }).appendTo('#card_body_' + id_select);
+            }).change(function () {
+                    getValueService($("select[id=service_" + id_select + "] option")
+                        .filter(':selected').val(), id_select);
 
+            }).appendTo('#col1_' + id_select);
+
+            //Single value Input
+            $('<label>').attr({
+                for: 'value_' + id_select,
+            }).text('Valor').appendTo('#col1_' + id_select);
+            $('<input>').attr({
+                type: 'text',
+                id: 'value_' + id_select,
+                name: "services[" +  id_array  + "][value]",
+                class: 'form-control',
+                readonly: 'readonly'
+            }).appendTo('#col1_' + id_select);
+
+
+            //Quantity Input
             $('<label>').attr({
                 for: 'service_quantity_' + id_select,
-            }).text('Quantidade').appendTo('#card_body_' + id_select);
+            }).text('Quantidade').appendTo('#col2_' + id_select);
             $('<input>').attr({
                 type: 'text',
                 id: 'service_quantity_' + id_select,
                 name: "services[" +  id_array  + "][quantity]",
                 class: 'form-control'
-            }).appendTo('#card_body_' + id_select);
+            }).blur(function (){
+                var value = $("#value_" + id_select).val();
+                var quantity = $("#service_quantity_" + id_select).val();
+                $("#total_value_" + id_select).val(value * quantity);
+            }).appendTo('#col2_' + id_select);
+
+
+            //Total value Input
+            $('<label>').attr({
+                for: 'total_value_' + id_select,
+            }).text('Valor total').appendTo('#col2_' + id_select);
+            $('<input>').attr({
+                type: 'text',
+                id: 'total_value_' + id_select,
+                class: 'form-control',
+                disabled: 'disabled',
+            }).appendTo('#col2_' + id_select);
+
+
+            //Buttons
             $('<input />',{
                 type: 'button',
                 value: '+',
@@ -117,8 +171,20 @@
                             $("#service_" + id_select).append(option);
                         }
                     }
+                    $("#value_" + id_select).val(response.data[0].value);
                 }
             });
+        }
+
+        function getValueService(id_service, id_select){
+            $.ajax({
+                url:'/api/getServicesList/'+ id_service,
+                type: 'get',
+                dataType: 'json',
+                success:function (response) {
+                    $("#value_" + id_select).val(response.data.value);
+                }
+            })
         }
     </script>
 @endsection
