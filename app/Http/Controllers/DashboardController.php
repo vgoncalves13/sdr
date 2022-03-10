@@ -28,6 +28,7 @@ class DashboardController extends Controller
             ->orderBy('temperature','asc')
             ->get();
 
+        $total_value = array();
         foreach ($total_value_temperature as $key => $value){
             $total_value[$value->temperature] = $value->total;
         }
@@ -35,6 +36,7 @@ class DashboardController extends Controller
         $arr = $sql_opportunities_temperature;
 
 
+        $total = array();
         foreach ($arr as $key => $op){
             $total[$op->temperature] = $op->value;
         }
