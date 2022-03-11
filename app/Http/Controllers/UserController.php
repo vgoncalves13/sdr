@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\People;
 use App\Models\User;
@@ -30,9 +31,11 @@ class UserController extends Controller
      */
     public function create()
     {
+        $managers = User::with('people')->whereRoleIs('manager')->get()->pluck('people.name', 'id');
         $sectors = DB::table('sectors')->pluck('name','id');
         $roles = DB::table('roles')->pluck('display_name','id');
-        return view('users.create')->with(compact('sectors','roles'));
+
+        return view('users.create')->with(compact('sectors','roles','managers'));
     }
 
     /**
@@ -61,41 +64,59 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('users.show')->with(compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        $managers = User::with('people')->whereRoleIs('manager')->get()->pluck('people.name', 'id');
+        $sectors = DB::table('sectors')->pluck('name','id');
+        $roles = DB::table('roles')->pluck('display_name','id');
+
+        return view('users.edit')->with(compact('user','managers','sectors','roles'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserEditRequest $request, User $user)
     {
-        //
+        $user->login = $request->login;
+        $user->save();
+
+        $user->people->name = $request->name;
+        $user->people->email = $request->email;
+        $user->people->sector_id = $request->sector_id;
+        $user->people->manager_id = $request->manager_id;
+        $user->people->UF = $request->UF;
+        $user->people->telephone = $request->telephone;
+        $user->people->save();
+
+        $user->attachRole($request->role_id);
+
+        Session::flash('message',__('messages.update_success',[
+            'objeto' => 'Usuário',
+            'nome' => $user->people->name
+        ]));
+        Session::flash('alert-class', 'alert-success');
+
+        return redirect(route('users.show', $user));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
