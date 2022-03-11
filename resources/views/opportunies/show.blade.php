@@ -33,6 +33,9 @@
                                    href="{{route('opportunities.edit',$opportunity)}}">Efetuar follow up
                                 </a>
                             @endif
+                            <a class="btn btn-secondary shadow"
+                               href="{{route('opportunities.add_service',$opportunity)}}">Cadastrar novo serviço
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -42,14 +45,21 @@
     <div class="row">
         <div class="col-12">
             <h3>Serviços</h3>
-            <div class="card">
-                <div class="card-body">
-                    @foreach($opportunity->services as $service)
-                        <p><strong>Nome do serviço:</strong> {{$service->name}}</p>
-                        <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
-                        <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
-                    @endforeach
-                </div>
+            <div class="row">
+                @foreach($opportunity->services as $service)
+                    <div class="col-12 col-md-4">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h5><a href="{{route('services.show', $service)}}">{{$service->name}}</a> </h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
+                                <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
+                                <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

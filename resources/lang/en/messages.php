@@ -16,6 +16,7 @@ return [
     'update_success' => ':objeto :nome atualizado com sucesso!',
     'error' => 'Ocorreu um problema!',
     'custom' => ':objeto',
-    'followup' => 'follow up realizado com sucesso!'
+    'followup' => 'follow up realizado com sucesso!',
+    'service_add' => 'Serviço adicionado com sucesso!',
 
 ];

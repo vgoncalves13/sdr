@@ -44,6 +44,10 @@ Route::prefix('admin')->middleware('auth')->group(function (){
         ->name('opportunities.store');
     Route::get('opportunities/dispatch_opportunity/{company}/{type?}',[\App\Http\Controllers\OpportunityController::class, 'dispatch_opportunity'])
         ->name('opportunities.dispatch_opportunity');
+    Route::get('opportunities/add_service/{opportunity}',[\App\Http\Controllers\OpportunityController::class, 'add_service'])
+        ->name('opportunities.add_service');
+    Route::post('oportunities/store_add_service/{opportunity}',[\App\Http\Controllers\OpportunityController::class, 'store_add_service'])
+        ->name('opportunities.store_add_service');
 
     //Carriers
     Route::get('carriers/sources/create/{carrier}',[\App\Http\Controllers\CarrierController::class, 'create_source'])

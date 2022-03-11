@@ -207,14 +207,19 @@ class OpportunityController extends Controller
         return redirect(route('opportunities.show',$opportunity));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Opportunity  $opportunity
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Opportunity $opportunity)
+    public function add_service(Opportunity $opportunity)
     {
-        //
+        return view('opportunies.add_service')->with(compact('opportunity'));
     }
+
+    public function store_add_service(Request $request, Opportunity $opportunity)
+    {
+        $opportunity->services()->attach($request->services);
+
+        Session::flash('message',__('messages.service_add'));
+        Session::flash('alert-class', 'alert-success');
+        return redirect(route('opportunities.show',$opportunity));
+    }
+
+
 }
