@@ -3,8 +3,11 @@
 @section('js')
     <script>
 
+
+
         $(function () {
             $('[data-tooltip="tooltip"]').tooltip()
+            createInput();
         });
 
         $("#cnpj").inputmask({
@@ -130,7 +133,7 @@
             $('<input />',{
                 type: 'button',
                 value: '+',
-                class: 'btn btn-primary',
+                class: 'btn btn-success mt-3 mr-1',
                 on: {
                     click: function () {
                         createInput();
@@ -140,7 +143,7 @@
             $('<input />',{
                 type: 'button',
                 value: '-',
-                class: 'btn btn-danger',
+                class: 'btn btn-danger mt-3',
                 on: {
                     click: function () {
                         deleteInput('#card_body_' + id_select);
