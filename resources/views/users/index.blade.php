@@ -32,19 +32,13 @@
                                 </td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{route('users.show',$user)}}">
-                                        <i class="fas fa-folder">
-                                        </i>
-                                        Ver
+                                        <i class="fas fa-folder"></i>Ver
                                     </a>
-                                    <a class="btn btn-info btn-sm" href="{{route('users.show',$user)}}">
-                                        <i class="fas fa-pencil-alt">
-                                        </i>
-                                        Editar
+                                    <a class="btn btn-info btn-sm" href="{{route('users.edit',$user)}}">
+                                        <i class="fas fa-pencil-alt"></i>Editar
                                     </a>
                                     <a class="btn btn-danger btn-sm" href="#">
-                                        <i class="fas fa-trash">
-                                        </i>
-                                        Excluir
+                                        <i class="fas fa-trash"></i>Excluir
                                     </a>
                                 </td>
                             </tr>
