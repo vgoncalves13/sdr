@@ -12,8 +12,8 @@
             <h3 class="card-title">Empresas</h3>
         </div>
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-striped">
+            <div class="p-3">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Nome</th>

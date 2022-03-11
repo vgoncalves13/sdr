@@ -12,8 +12,8 @@
             <a class="btn btn-primary" href="{{route('users.create')}}">Cadastrar novo usuário</a>
         </div>
         <div class="row">
-            <div class="col-12">
-                <table class="table">
+            <div class="col-12 p-3">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>Nome</th>
@@ -31,13 +31,25 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a class="btn btn-flat btn-info btn-sm" href="{{route('users.show',$user)}}">Ver</a>
-                                    <a class="btn btn-flat btn-info btn-sm" href="{{route('users.edit',$user)}}">Editar</a>
+                                    <a class="btn btn-primary btn-sm" href="{{route('users.show',$user)}}">
+                                        <i class="fas fa-folder">
+                                        </i>
+                                        Ver
+                                    </a>
+                                    <a class="btn btn-info btn-sm" href="{{route('users.show',$user)}}">
+                                        <i class="fas fa-pencil-alt">
+                                        </i>
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" href="#">
+                                        <i class="fas fa-trash">
+                                        </i>
+                                        Excluir
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-
                 </table>
             </div>
         </div>

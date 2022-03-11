@@ -12,23 +12,40 @@
             <a class="btn btn-primary" href="{{route('sectors.create')}}">Cadastrar novo setor</a>
         </div>
         <div class="row">
-            <div class="col-12">
-                <table class="table">
-                    <tr>
-                        <td>Nome</td>
-                        <td>Descrição</td>
-                        <td>Ações</td>
-                    </tr>
-                    @foreach($sectors as $sector)
+            <div class="col-12 p-3">
+                <table class="table table-striped table-bordered">
+                    <thead>
                         <tr>
-                            <td>{{$sector->name}}</td>
-                            <td>{{$sector->description}}</td>
-                            <td>
-                                <a class="btn btn-flat btn-info btn-sm" href="{{route('sectors.show',$sector)}}">Ver</a>
-                                <a class="btn btn-flat btn-info btn-sm" href="{{route('sectors.edit',$sector)}}">Editar</a>
-                            </td>
+                            <td>Nome</td>
+                            <td>Descrição</td>
+                            <td>Ações</td>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody>
+                        @foreach($sectors as $sector)
+                            <tr>
+                                <td>{{$sector->name}}</td>
+                                <td>{{$sector->description}}</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" href="{{route('sectors.show',$sector)}}">
+                                        <i class="fas fa-folder">
+                                        </i>
+                                        Ver
+                                    </a>
+                                    <a class="btn btn-info btn-sm" href="{{route('sectors.edit',$sector)}}">
+                                        <i class="fas fa-pencil-alt">
+                                        </i>
+                                        Editar
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" href="#">
+                                        <i class="fas fa-trash">
+                                        </i>
+                                        Excluir
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
                 {{$sectors->links()}}
             </div>
