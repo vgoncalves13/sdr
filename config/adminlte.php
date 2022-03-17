@@ -241,33 +241,46 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+
         [
-            'text' => 'Usuários',
-            'url'  => 'admin/users',
-            'icon' => 'fas fa-fw fa-user',
-            'active' => ['admin/users/*']
-        ],
-        [
-            'text' => 'Setores',
-            'url'  => 'admin/sectors',
-            'icon' => 'fas fa-fw fa-bezier-curve',
-            'active' => ['admin/sectors/*']
+            'text'    => 'Gestão de equipe',
+            'submenu' => [
+                [
+                    'text' => 'Usuários',
+                    'route'  => 'users.index',
+                    'icon' => 'fas fa-fw fa-user',
+                    'active' => ['admin/users/*']
+                ],
+                [
+                    'text'    => 'Setores',
+                    'route' => 'sectors.index',
+                    'icon' => 'fas fa-fw fa-bezier-curve',
+                    'active' => ['admin/sectors/*']
+                ],
+                [
+                    'text'    => 'Equipes',
+                    'route' => 'teams.index',
+                    'icon' => 'fa-solid fa-user-group',
+                    'active' => ['admin/teams/*']
+                ],
+            ],
+            'permission'  => 'create-medico',
         ],
         [
             'text' => 'Empresas',
-            'url'  => 'admin/companies',
+            'route'  => 'companies.index',
             'icon' => 'fas fa-fw fa-building',
             'active' => ['admin/companies/*']
         ],
         [
             'text' => 'Oportunidades',
-            'url'  => 'admin/opportunities',
+            'route'  => 'opportunities.index',
             'icon' => 'fas fa-fw fa-lightbulb',
             'active' => ['admin/opportunities/*']
         ],
         [
             'text' => 'Serviços',
-            'url'  => 'admin/services',
+            'route'  => 'services.index',
             'icon' => 'fas fa-fw fa-solid fa-phone',
             'active' => ['admin/services/*']
         ],
@@ -291,9 +304,11 @@ return [
             'url' => 'admin/carriers',
             'icon' => 'fas fa-phone',
             'active' => ['admin/carriers/*']
-        ]
-
+        ],
     ],
+
+
+
 
     /*
     |--------------------------------------------------------------------------

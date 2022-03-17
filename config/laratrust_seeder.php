@@ -18,12 +18,14 @@ return [
             'user' => 'c,r,u,d',
             'sector' => 'c,r,u,d',
             'opportunity' => 'c,r,u,d',
+            'team' => 'c,r,u,d',
         ],
         'manager' => [
             'company' => 'c,r,u,d',
             'user' => 'c,r,u,d',
             'sector' => 'c,r,u,d',
             'opportunity' => 'c,r,u',
+            'team' => 'c,r,u',
         ],
         'external_salesman' => [
             'company' => 'c,r,u',
