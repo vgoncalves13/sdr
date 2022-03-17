@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UserEditRequest extends FormRequest
+class TeamEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,13 +25,9 @@ class UserEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'login' => ['required',Rule::unique('users')->ignore($this->user->id)],
-            'name' => 'required',
-            'email' => ['required',Rule::unique('peoples')->ignore($this->user->id)],
-            'telephone' => 'required',
-            'team_id' => 'required',
-            'UF' => 'required',
-            'role' => 'required'
+            'name' => ['required',Rule::unique('teams')->ignore($this->team->id)],
+            'display_name' => 'required',
+            'sector_id' => 'required',
         ];
     }
 }

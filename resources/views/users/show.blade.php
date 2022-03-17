@@ -20,7 +20,7 @@
                             <p><strong>Nome usuário: </strong> {{$user->people->name}}</p>
                             <p><strong>Login: </strong> {{$user->login}}</p>
                             <p><strong>E-mail: </strong> {{$user->people->email}}</p>
-                            <p><strong>Setor: </strong> {{$user->people->sector->name ?? 'Sem setor'}}</p>
+                            <p><strong>Equipe: </strong> {{$user->team()->display_name ?? 'Sem equipe'}}</p>
                             <p><strong>Gerente: </strong> {{$user->people->manager->name ?? 'Sem gerente'}}</p>
                             <p><strong>UF: </strong> {{$user->people->UF}}</p>
                             <p><strong>Telefone: </strong> {{$user->people->telephone}}</p>

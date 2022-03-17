@@ -20,6 +20,7 @@ Route::prefix('admin')->middleware('auth')->group(function (){
     Route::resource('opportunities',\App\Http\Controllers\OpportunityController::class);
     Route::resource('carriers',\App\Http\Controllers\CarrierController::class);
     Route::resource('services',\App\Http\Controllers\ServiceController::class);
+    Route::resource('teams',\App\Http\Controllers\TeamController::class);
 
     //Leads
     Route::get('leads',[\App\Http\Controllers\LeadController::class,'index'])

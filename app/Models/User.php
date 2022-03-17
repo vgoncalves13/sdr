@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Laratrust\Traits\LaratrustUserTrait;
 
@@ -46,6 +47,13 @@ class User extends Authenticatable
     public function people()
     {
         return $this->hasOne(People::class);
+    }
+
+    public function team()
+    {
+        $role_user = DB::table('role_user')->where('user_id',$this->id)->first();
+        $team = Team::where('id',$role_user->team_id)->first();
+        return $team;
     }
 
 }

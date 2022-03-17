@@ -62,11 +62,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="sector">Setor</label>
-                                    <select class="form-control" name="sector_id" id="sector">
-                                        <option value="">Selecione um setor...</option>
-                                        @foreach ($sectors as $key => $value)
-                                            <option @if(old('sector_id') ?? $user->people->sector_id == $key) selected @endif value="{{ $key }}">
+                                    <label for="sector">Equipe</label>
+                                    <select class="form-control" name="team_id" id="team">
+                                        <option value="">Selecione uma equipe...</option>
+                                        @foreach ($teams as $key => $value)
+                                            <option @if(old('team_id') ?? $user->team()->id == $key) selected @endif value="{{ $key }}">
                                                 {{ $value }}
                                             </option>
                                         @endforeach

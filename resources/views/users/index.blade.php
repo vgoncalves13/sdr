@@ -18,6 +18,8 @@
                         <tr>
                             <th>Nome</th>
                             <th>Cargo</th>
+                            <th>Equipe</th>
+                            <th>Gerente</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -30,6 +32,8 @@
                                         {{$role->description}}
                                     @endforeach
                                 </td>
+                                <td>{{$user->team()->display_name ?? 'Sem equipe'}}</td>
+                                <td>{{$user->people->manager->name ?? 'Sem gerente'}}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="{{route('users.show',$user)}}">
                                         <i class="fas fa-folder"></i>Ver

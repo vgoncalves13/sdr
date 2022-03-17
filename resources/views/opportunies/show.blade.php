@@ -6,7 +6,7 @@
 @section('content_header')
     <h1></h1>
 @stop
-
+{{$user->team()}}
 @section('content')
     <div class="row">
         <div class="col-12">

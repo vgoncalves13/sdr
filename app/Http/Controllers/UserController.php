@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserEditRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\People;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Http\Request;
@@ -32,10 +33,11 @@ class UserController extends Controller
     public function create()
     {
         $managers = User::with('people')->whereRoleIs('manager')->get()->pluck('people.name', 'id');
-        $sectors = DB::table('sectors')->pluck('name','id');
+        $teams = Team::get()->pluck('name','id');
+        //$sectors = DB::table('sectors')->pluck('name','id');
         $roles = DB::table('roles')->pluck('display_name','id');
 
-        return view('users.create')->with(compact('sectors','roles','managers'));
+        return view('users.create')->with(compact('roles','managers','teams'));
     }
 
     /**
@@ -78,10 +80,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $managers = User::with('people')->whereRoleIs('manager')->get()->pluck('people.name', 'id');
-        $sectors = DB::table('sectors')->pluck('name','id');
+        //$sectors = DB::table('sectors')->pluck('name','id');
+        $teams = Team::get()->pluck('name','id');
         $roles = DB::table('roles')->pluck('display_name','id');
 
-        return view('users.edit')->with(compact('user','managers','sectors','roles'));
+        return view('users.edit')->with(compact('user','managers','teams','roles'));
     }
 
     /**
@@ -96,7 +99,8 @@ class UserController extends Controller
 
         $user->people->name = $request->name;
         $user->people->email = $request->email;
-        $user->people->sector_id = $request->sector_id;
+        //$user->people->sector_id = $request->sector_id;
+        DB::table('role_user')->where('user_id',$user->id)->update(['team_id' => $request->team_id]);
         $user->people->manager_id = $request->manager_id;
         $user->people->UF = $request->UF;
         $user->people->telephone = $request->telephone;

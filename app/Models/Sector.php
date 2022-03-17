@@ -18,4 +18,9 @@ class Sector extends Model
     {
         return $this->hasMany(People::class);
     }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
 }
