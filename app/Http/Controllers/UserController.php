@@ -51,7 +51,8 @@ class UserController extends Controller
         $user = User::create($request->all());
         $people = People::create($request->all());
         $user->people()->save($people);
-        $user->attachRole($request->role);
+        $user->attachRole($request->role, $request->team_id);
+
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Usuário',
@@ -106,7 +107,7 @@ class UserController extends Controller
         $user->people->telephone = $request->telephone;
         $user->people->save();
 
-        $user->attachRole($request->role_id);
+        $user->attachRole($request->role_id, $request->team_id);
 
         Session::flash('message',__('messages.update_success',[
             'objeto' => 'Usuário',

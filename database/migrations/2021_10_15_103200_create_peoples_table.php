@@ -18,10 +18,6 @@ class CreatePeoplesTable extends Migration
             $table->string('name');
             $table->string('email')->nullable();
 
-            $table->unsignedBigInteger('sector_id');
-            $table->foreign('sector_id')->references('id')->on('sectors')
-                ->onUpdate('cascade')->onDelete('cascade');
-
             $table->unsignedBigInteger('manager_id')->nullable();
             $table->foreign('manager_id')->references('id')->on('peoples')
                 ->onUpdate('cascade')->onDelete('cascade');

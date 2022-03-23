@@ -241,7 +241,19 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-
+        [
+            'text'    => 'Consultas',
+            'icon'    => 'fas fa-magnifying-glass',
+            'submenu' => [
+                [
+                    'text' => 'CNPJ',
+                    'route'  => 'consults.cnpj',
+                    'icon' => 'fas fa-fw fa-user',
+                    'active' => ['admin/consults/cnpj']
+                ],
+            ],
+            'permission'  => 'create-medico',
+        ],
         [
             'text'    => 'Gestão de equipe',
             'submenu' => [

@@ -15,7 +15,6 @@ class People extends Model
         'name',
         'email',
         'telephone',
-        'sector_id',
         'manager_id',
         'UF'
     ];

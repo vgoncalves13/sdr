@@ -22,6 +22,10 @@ Route::prefix('admin')->middleware('auth')->group(function (){
     Route::resource('services',\App\Http\Controllers\ServiceController::class);
     Route::resource('teams',\App\Http\Controllers\TeamController::class);
 
+    //Consults
+    Route::get('consults/cnpj',[\App\Http\Controllers\ConsultController::class,'cnpj'])
+        ->name('consults.cnpj');
+
     //Leads
     Route::get('leads',[\App\Http\Controllers\LeadController::class,'index'])
         ->name('leads.index');
