@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classification;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -33,15 +34,10 @@ class ServiceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         $service = Service::create($request->all());
-//        $service = new Service();
-//        $service->name = $request->name;
-//        $service->value = $request->value;
-//        $service->save();
 
         Session::flash('message',__('messages.success',[
             'objeto' => 'Serviço',
@@ -56,11 +52,9 @@ class ServiceController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Service $service)
     {
-        $service = Service::findOrFail($id);
         return view('services.show')->with(compact('service'));
     }
 
@@ -68,12 +62,11 @@ class ServiceController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Service  $service
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Service $service)
     {
-        $service = Service::findOrFail($id);
-        return view('services.edit')->with(compact('service'));
+        $classifications = Classification::all(['id','display_name']);
+        return view('services.edit')->with(compact('service','classifications'));
     }
 
     /**
@@ -86,6 +79,7 @@ class ServiceController extends Controller
     public function update(Request $request, Service $service)
     {
         $service->update($request->all());
+        $service->classifications()->sync($request->classifications);
 
         Session::flash('message',__('messages.update_success',[
             'objeto' => 'Serviço',

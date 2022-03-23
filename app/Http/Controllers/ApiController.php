@@ -23,4 +23,11 @@ class ApiController extends Controller
         $list = Service::all();
         return response()->json(['data' => $list]);
     }
+
+    public function getClassificationsService($id)
+    {
+        $service = Service::findOrfail($id);
+        $classifications = $service->classifications;
+        return response()->json(['data' => $classifications]);
+    }
 }

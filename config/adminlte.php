@@ -297,6 +297,12 @@ return [
             'active' => ['admin/services/*']
         ],
         [
+            'text' => 'Classificações',
+            'route'  => 'classifications.index',
+            'icon' => 'fas fa-list',
+            'active' => ['admin/classifications/*']
+        ],
+        [
             'header' => 'MAILING'
         ],
         [

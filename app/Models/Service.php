@@ -20,4 +20,9 @@ class Service extends Model
     {
         return $this->belongsToMany(Opportunity::class)->withPivot('quantity');
     }
+
+    public function classifications()
+    {
+        return $this->belongsToMany(Classification::class);
+    }
 }

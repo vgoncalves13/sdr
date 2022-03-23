@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOpportunitiesServicesTable extends Migration
+class CreateClassificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateOpportunitiesServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('opportunities_services', function (Blueprint $table) {
+        Schema::create('classifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('opportunity_id')->constrained();
-            $table->foreignId('service_id')->constrained();
-            $table->foreignId('classification_id')->constrained();
-            $table->softDeletes();
+            $table->string('name');
+            $table->string('display_name');
+            $table->decimal('multiply_factor')->default(1);
             $table->timestamps();
         });
+
     }
 
     /**
@@ -30,6 +30,6 @@ class CreateOpportunitiesServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('opportunities_services');
+        Schema::dropIfExists('classifications');
     }
 }

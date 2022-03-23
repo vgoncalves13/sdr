@@ -1,15 +1,15 @@
 @extends('adminlte::page')
 
-@section('title', 'Serviços')
+@section('title', 'Classificações')
 
 @section('content_header')
-    <h1>Serviços</h1>
+    <h1>Classificações</h1>
 @stop
 
 @section('content')
     <div class="card card-default">
         <div class="card-header">
-            <a class="btn btn-primary" href="{{route('services.create')}}">Cadastrar novo serviço</a>
+            <a class="btn btn-primary" href="{{route('classifications.create')}}">Cadastrar nova classificação</a>
         </div>
         <div class="row">
             <div class="col-12 p-3">
@@ -17,22 +17,24 @@
                     <thead>
                         <tr>
                             <td>Nome</td>
-                            <td>Valor</td>
+                            <td>Nome de exibição</td>
+                            <td>Fator de multiplicação</td>
                             <td>Ações</td>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($services as $service)
+                        @foreach($classifications as $classification)
                             <tr>
-                                <td>{{$service->name}}</td>
-                                <td>{{$service->value}}</td>
+                                <td>{{$classification->name}}</td>
+                                <td>{{$classification->display_name}}</td>
+                                <td>{{$classification->multiply_factor}}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-sm" href="{{route('services.show',$service)}}">
+                                    <a class="btn btn-primary btn-sm" href="{{route('classifications.show',$classification)}}">
                                         <i class="fas fa-folder">
                                         </i>
                                         Ver
                                     </a>
-                                    <a class="btn btn-info btn-sm" href="{{route('services.edit',$service)}}">
+                                    <a class="btn btn-info btn-sm" href="{{route('classifications.edit',$classification)}}">
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                         Editar
