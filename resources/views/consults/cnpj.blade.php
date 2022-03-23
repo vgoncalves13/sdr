@@ -3,7 +3,7 @@
 @section('title', 'Cadastrar Oportunidade')
 
 @section('content_header')
-    <h1>Cadastrar Oportunidade</h1>
+    <h1>Consultar CNPJ</h1>
 @stop
 
 @section('content')

@@ -15,7 +15,7 @@ class SectorSeeder extends Seeder
     public function run()
     {
         Sector::create([
-            'name' => 'teste',
+            'name' => 'Teste Setor',
             'description' => 'Setor de testes'
         ]);
     }

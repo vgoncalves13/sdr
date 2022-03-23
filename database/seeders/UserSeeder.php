@@ -25,11 +25,10 @@ class UserSeeder extends Seeder
            'UF' => 'RJ',
            'email' => 'admin@mailinator.com',
            'manager_id' => $user->id,
-           'sector_id' => 1,
            'telephone' => '9999999',
         ]);
 
-        $user->attachRole('administrator');
+        $user->attachRole('administrator',1);
     }
 
 }
