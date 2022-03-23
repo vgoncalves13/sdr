@@ -20,6 +20,11 @@
                             <p><strong>Preço do serviço: </strong> {{$service->value}}</p>
                         </div>
                     </div>
+                    <h4>Classificações</h4>
+                    @foreach($service->classifications as $classification)
+                        <p><strong>Nome:</strong> {{$classification->display_name}}</p>
+                        <p><strong>Fator de multiplicação:</strong> {{$classification->multiply_factor}}</p>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -29,6 +29,23 @@
                             <input name="value" type="text" class="form-control" id="value"
                                     placeholder="Preço do serviço" value="{{$service->value}}" required>
                         </div>
+                        <h4>Classificações</h4>
+                        @foreach($classifications as $classification)
+                            <div class="form-check">
+                                <input
+                                    @foreach($service->classifications as $service_classification)
+                                    @if($service_classification->id == $classification->id)
+                                    checked
+                                    @endif
+                                    @endforeach name="classifications[]"
+                                    class="form-check-input" type="checkbox" value="{{$classification->id}}"
+                                    id="{{$classification->display_name}}"
+                                >
+                                <label class="form-check-label" for="{{$classification->display_name}}">
+                                    {{$classification->display_name}}
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">

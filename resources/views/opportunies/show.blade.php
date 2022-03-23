@@ -54,7 +54,9 @@
                             <div class="card-body">
                                 <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
                                 <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
-                                <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value}}</p>
+                                <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value * $service->classifications[0]->multiply_factor}}</p>
+                                <p><strong>Classificação:</strong> {{$service->classifications[0]->display_name}}</p>
+                                <p><strong>Fator de multiplicação:</strong> {{$service->classifications[0]->multiply_factor}}</p>
                             </div>
                         </div>
                     </div>

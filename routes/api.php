@@ -19,4 +19,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('leads',[\App\Http\Controllers\ApiController::class,'getAllLeads']);
 Route::get('getServicesList/{id?}',[\App\Http\Controllers\ApiController::class,'getServicesList']);
+Route::get('getClassificationsService/{id}',[\App\Http\Controllers\ApiController::class,'getClassificationsService']);
 

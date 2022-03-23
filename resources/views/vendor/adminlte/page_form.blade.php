@@ -85,7 +85,8 @@
             }).change(function () {
                     getValueService($("select[id=service_" + id_select + "] option")
                         .filter(':selected').val(), id_select);
-
+                    getClassifications($("select[id=service_" + id_select + "] option")
+                        .filter(':selected').val(), id_select);
             }).appendTo('#col1_' + id_select);
 
             //Single value Input
@@ -128,6 +129,15 @@
                 disabled: 'disabled',
             }).appendTo('#col2_' + id_select);
 
+            //Classification Select
+            $('<label>').attr({
+                for:'classification_' + id_select,
+            }).text('Classificação').appendTo('#col1_' + id_select);
+            $('<select>').attr({
+                id: 'classification_' + id_select,
+                name: "services[" +  id_array  + "][classification_id]",
+                class: 'form-control'
+            }).appendTo('#col1_' + id_select);
 
             //Buttons
             $('<input />',{
@@ -175,6 +185,8 @@
                         }
                     }
                     $("#value_" + id_select).val(response.data[0].value);
+                    getClassifications($("select[id=service_" + id_select + "] option")
+                        .filter(':selected').val(), id_select);
                 }
             });
         }
@@ -189,5 +201,39 @@
                 }
             })
         }
+
+        function getClassifications(id_service, id_select){
+            removeOptions(document.getElementById("classification_" + id_select));
+            $.ajax({
+                url:'/api/getClassificationsService/'+ id_service,
+                type: 'get',
+                dataType: 'json',
+                success:function (response) {
+                    var len = 0;
+                    if (response.data != null) {
+                        len = response.data.length;
+                    }
+                    if (len>0) {
+                        for (var i = 0; i<len; i++) {
+
+                            var id = response.data[i].id;
+                            var name = response.data[i].name;
+
+                            var option = "<option value='"+ id +"'>"+name+"</option>";
+
+                            $("#classification_" + id_select).append(option);
+                        }
+                    }
+                }
+            })
+        }
+
+        function removeOptions(selectElement) {
+            var i, L = selectElement.options.length - 1;
+            for(i = L; i >= 0; i--) {
+                selectElement.remove(i);
+            }
+        }
+
     </script>
 @endsection

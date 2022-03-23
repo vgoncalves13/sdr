@@ -144,6 +144,7 @@ class OpportunityController extends Controller
      */
     public function store(OpportunityComplementRequest $request, Company $company = null)
     {
+        dd($request->all());
         $opportunity = $company->opportunities()->create($request->all());
         $opportunity->services()->attach($request->services);
 

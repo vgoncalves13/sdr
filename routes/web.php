@@ -21,6 +21,7 @@ Route::prefix('admin')->middleware('auth')->group(function (){
     Route::resource('carriers',\App\Http\Controllers\CarrierController::class);
     Route::resource('services',\App\Http\Controllers\ServiceController::class);
     Route::resource('teams',\App\Http\Controllers\TeamController::class);
+    Route::resource('classifications',\App\Http\Controllers\ClassificationController::class);
 
     //Consults
     Route::get('consults/cnpj',[\App\Http\Controllers\ConsultController::class,'cnpj'])
