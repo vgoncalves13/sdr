@@ -51,13 +51,25 @@
                             <div class="card-header">
                                 <h5><a href="{{route('services.show', $service)}}">{{$service->name}}</a> </h5>
                             </div>
-                            <div class="card-body">
-                                <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
-                                <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
-                                <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value * $service->classifications[0]->multiply_factor}}</p>
-                                <p><strong>Classificação:</strong> {{$service->classifications[0]->display_name}}</p>
-                                <p><strong>Fator de multiplicação:</strong> {{$service->classifications[0]->multiply_factor}}</p>
-                            </div>
+                            {{-- Admin view --}}
+                            @permission('opportunity-delete')
+                                <div class="card-body">
+                                    <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
+                                    <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
+                                    <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value * $service->classifications[0]->multiply_factor}}</p>
+                                    <p><strong>Classificação:</strong> {{$service->classifications[0]->display_name}}</p>
+                                    <p><strong>Fator de multiplicação:</strong> {{$service->classifications[0]->multiply_factor}}</p>
+                                </div>
+                            @endpermission
+                            {{-- Sales view --}}
+                            @role(['external_salesman','internal_salesman','manager'])
+                                <div class="card-body">
+                                    <p><strong>Valor do serviço:</strong> {{$service->value}}</p>
+                                    <p><strong>Quantidade:</strong> {{$service->pivot->quantity}}</p>
+                                    <p><strong>Valor total:</strong> R${{$service->pivot->quantity * $service->value}}</p>
+                                    <p><strong>Classificação:</strong> {{$service->classifications[0]->display_name}}</p>
+                                </div>
+                            @endrole
                         </div>
                     </div>
                 @endforeach

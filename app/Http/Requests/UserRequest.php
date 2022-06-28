@@ -30,7 +30,6 @@ class UserRequest extends FormRequest
             'name' => 'required',
             'email' => ['required','unique:peoples'],
             'telephone' => 'required',
-            'sector_id' => 'required',
             'UF' => 'required',
             'role' => 'required'
         ];
